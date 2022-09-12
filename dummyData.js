@@ -18,4 +18,3 @@ export const item3 = {
   thumbnail:
     "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png"
 };
-
