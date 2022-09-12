@@ -78,7 +78,7 @@ export class Contenedor {
 
   createId(allCurrentItems) {
     //crea un nuevo ID y asigna 1 si es el primero, si no agarra el ultimo id del ultimo id y le suma 1
-    let newID = allCurrentItems.length > 0 ? allCurrentItems.at(-1).id + 1 : 1;
+    let newID = allCurrentItems.length > 0 ? allCurrentItems.length + 1 : 1;
     return newID;
   }
 }
