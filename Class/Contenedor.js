@@ -29,12 +29,12 @@ export class Contenedor {
 
   async deleteById(id) {
     const allCurrentItem = await this.getAll();
-    const filteredArray = allCurrentItem.filter((item) => item.id !== id);
-    if (!filteredArray) throw new Error("No existe item con ese Id");
     try {
+      await this.getById(id);
+      const filteredArray = allCurrentItem.filter((item) => item.id !== id);
       await writeFile(this.filePath, JSON.stringify(filteredArray, null, 2));
-    } catch (error) {
-      throw new Error("Algo paso al borrar elemento");
+    } catch (e) {
+      throw new Error("No existe el elemento");
     }
   }
 
@@ -46,11 +46,30 @@ export class Contenedor {
       return JSON.parse(allCurrentItems);
     } catch (error) {
       //controlo error por si se quiere imprimir todos y no hay archivo existente, si no hay lo crea y le pone un array
-      await writeFile("./productos.txt", JSON.stringify([]), (err) =>
+      await writeFile(this.filePath, JSON.stringify([]), (err) =>
         console.log("Couldn't Create File: " + err)
       );
       return [];
     }
+  }
+
+  async modifyById(id, newObjProps) {
+    let allCurrentItems = await this.getAll();
+    const itemToModify = await this.getById(id);
+    //hay otra validacion dentro del modified array que checa si el elemento esta vacio, si lo esta mete el mismo valor de antes
+    const modifiedArray = {
+      ...itemToModify,
+      title: newObjProps.title ? newObjProps.title : itemToModify.title,
+      thumbnail: newObjProps.thumbnail
+        ? newObjProps.thumbnail
+        : itemToModify.thumbnail,
+      price: newObjProps.price ? newObjProps.price : itemToModify.price
+    };
+    //reemplaza el item anterior
+    allCurrentItems[id - 1] = modifiedArray;
+    await writeFile(this.filePath, JSON.stringify(allCurrentItems, null, 2));
+    //regresa el ID del item modificado
+    return itemToModify.id;
   }
 
   async deleteAll() {
