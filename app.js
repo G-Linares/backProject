@@ -1,23 +1,31 @@
 import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
-import productRouter from "./Routes/index.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import handlebars from "express-handlebars";
+import productRouter from "./Router/productRouter.js";
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 
-app.use(express.json());
+// -------------------handlebars-------------
+
+app.engine(
+  "hbs",
+  handlebars.engine({
+    extname: ".hbs",
+    defaultLayout: "index.hbs"
+  })
+);
+app.set("view engine", "hbs");
+app.set("views", "./views");
+
+// -------------------handlebars-------------
+
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-app.get("/api", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
+app.use("/", productRouter);
+
+const server = app.listen(PORT, () => {
+  console.log(`Servidor http escuchando en el puerto ${server.address().port}`);
 });
-
-app.use("/api/productos", productRouter);
-
-app.listen(PORT, () => {
-  console.log(`Server running on port: ${PORT}`);
-});
+server.on("error", (error) => console.log(`Error en servidor ${error}`));
