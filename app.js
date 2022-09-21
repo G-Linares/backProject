@@ -1,23 +1,14 @@
 import express from "express";
-import handlebars from "express-handlebars";
 import productRouter from "./Router/productRouter.js";
+import expressLayouts from "express-ejs-layouts";
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8080;
 
-// -------------------handlebars-------------
-
-app.engine(
-  "hbs",
-  handlebars.engine({
-    extname: ".hbs",
-    defaultLayout: "index.hbs"
-  })
-);
-app.set("view engine", "hbs");
-app.set("views", "./views");
-
-// -------------------handlebars-------------
+// -------------------EJS-------------
+app.use(expressLayouts);
+app.set("view engine", "ejs");
+// -------------------EJS-------------
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));

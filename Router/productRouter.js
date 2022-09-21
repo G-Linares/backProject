@@ -35,8 +35,7 @@ productRouter.delete("/productos/borrar/:id", (req, res) => {
 productRouter.get("/productos", (req, res) => {
   let prods = productos.listarAll();
   res.render("vista", {
-    productos: prods,
-    hayProductos: prods.length
+    productos: prods
   });
 });
 

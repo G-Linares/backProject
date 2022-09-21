@@ -1,0 +1,48 @@
+<style>
+  .table td,
+  .table th {
+    vertical-align: middle;
+  }
+  h1 {
+    color: blue !important;
+  }
+  hr {
+    background-color: #ddd;
+  }
+  .jumbotron {
+    min-height: 100vh;
+  }
+</style>
+
+<div class="jumbotron">
+  <h1>Vista de Productos</h1>
+  <br />
+
+  <% if (productos.length > 0) { %>
+  <div class="table-responsive">
+    <table class="table table-dark">
+      <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Foto</th>
+      </tr>
+      <% productos.forEach(element => { %>
+      <tr>
+        <td><%=element.title %></td>
+        <td>$<%=element.price %></td>
+        <td>
+          <img width="50" src="<%=element.thumbnail%>" alt="not found" />
+        </td>
+      </tr>
+      <% }); %>
+    </table>
+  </div>
+  <% } else {%>
+  <h3 class="alert alert-warning">No se encontraron productos</h3>
+  <%}%>
+  <div class="container pt-5">
+    <div class="col-md-12 text-center">
+      <a href="/" class="btn btn-primary">Ir a formulario</a>
+    </div>
+  </div>
+</div>
