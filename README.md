@@ -1,4 +1,6 @@
-## About The Project
+# Proyecto Final
+
+## Acerca del Proyecto
 
 Aquí encontrarás el proyecto final para las lecciones de Desarrollo de Back-End por CoderHouse.
 
@@ -37,17 +39,16 @@ Así lo puedes instalar
    ```
 4. Iniciar Server
 
-```sh
- cd server
- npm start
-```
+   ```sh
+   cd server
+   npm start
+   ```
 
 5. Iniciar Client
-
-```sh
- cd client
- npm start
-```
+   ```sh
+   cd client
+   npm start
+   ```
 
 ## Roadmap
 
