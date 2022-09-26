@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import { navigateToRoute } from "../App";
+import AdminButtons from "../Components/AdminButtons";
 import Hero from "../Components/Hero";
 
 // custom hook that catches all the dfetched data loading state of the fetch
@@ -20,14 +21,6 @@ export default function ProductGrid({
   const { data, isLoading }: TApiResponse = useApiGet(
     "http://localhost:8080/api/productos"
   );
-
-  const handleErease = (e: any) => {
-    console.log("quieres borrar");
-  };
-
-  const handleEdit = (e: any) => {
-    console.log("quieres editar", e);
-  };
 
   return (
     <div className="bg-white">
@@ -56,7 +49,7 @@ export default function ProductGrid({
                         <img
                           src={item.foto}
                           alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
-                          className=" max-h-[420px] h-full w-full object-cover object-center group-hover:opacity-75"
+                          className=" max-h-[320px] h-full w-full object-cover object-center group-hover:opacity-75"
                         />
                       </div>
                       <h3 className="mt-1 text-lg font-medium text-gray-900">
@@ -72,26 +65,11 @@ export default function ProductGrid({
                         ${item.precio}.00 MXN
                       </p>
                       <p className="mt-1 text-sm text-gray-700">
-                        {item.descripcion}
+                        {item.descripcion.substring(0, 100)} ...{" "}
+                        <strong>Ver más</strong>
                       </p>
                     </Link>
-                    {userType === "Admin" && (
-                      <div className="flex items-center justify-around">
-                        {" "}
-                        <button
-                          className="bg-red-400  text-white font-bold py-2 px-4 border-b-4 border-red-600 rounded mt-4"
-                          onClick={(e) => handleErease(e)}
-                        >
-                          Borrar
-                        </button>
-                        <button
-                          className="bg-gray-200  text-gray-600 font-bold py-2 px-4 border-b-4 border-gray-400 rounded mt-4"
-                          onClick={(e) => handleEdit(e)}
-                        >
-                          Editar
-                        </button>
-                      </div>
-                    )}
+                    {userType === "Admin" && <AdminButtons />}
                   </div>
                 );
               })}
