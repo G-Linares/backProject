@@ -1,11 +1,5 @@
-# Motores de Plantillas
+# Primera Entrega Proyecto Final
 
-Las consignas se encuentran en diferentes ramas de este repositorio.
+Como correr el proyecto.
 
-- Consigna 1 (Handlebars) rama feature/Handlebars
-- Consigna 2 (PUG) rama feature/PUG
-- Consigna 3 (EJS) rama feature/ejs
-
-## Opinión
-
-En lo personal me gusta más EJS por la facilidad de utilizar código HTML ya existente, de igual forma es más intuitivo inyectar funciones o variables dentro de cada vista.
+Este proyecto va a estar dividido en 2 partes, front y back, en la carpeta de Server podrás encontrar todo lo relacionado al
