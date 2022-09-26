@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProductGrid from "./Views/ProductGrid";
 import ProductDetails from "./Views/ProductDetails";
+import useLocalStorage from "./utils/LocalStorage";
 
 export const ROUTE_PATHS = {
   Home: "/",
@@ -13,11 +14,21 @@ export const navigateToRoute = {
 };
 
 const App = () => {
+  const [userType, setUserType] = useLocalStorage("userType", "customer");
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTE_PATHS.Home} element={<ProductGrid />} />
-        <Route path={ROUTE_PATHS.ProductDetails} element={<ProductDetails />} />
+        <Route
+          path={ROUTE_PATHS.Home}
+          element={
+            <ProductGrid userType={userType} setUserType={setUserType} />
+          }
+        />
+        <Route
+          path={ROUTE_PATHS.ProductDetails}
+          element={<ProductDetails userType={userType} />}
+        />
       </Routes>
     </BrowserRouter>
   );
