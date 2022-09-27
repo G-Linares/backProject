@@ -51,13 +51,11 @@ export default function ProductDetails({ userType }: Props) {
                   <span className="title-font font-medium text-2xl text-gray-900">
                     ${data.precio}.00 MXN
                   </span>
-                  <button className="flex ml-auto text-white bg-blue-400 border-0 py-2 px-6 focus:outline-none rounded-lg">
-                    Comprar
-                  </button>
+                  <button className="flex ml-auto btn">Comprar</button>
                 </div>
                 {userType === "Admin" && (
                   <div className="mt-4">
-                    <AdminButtons />
+                    <AdminButtons idOfElement={data.id} />
                   </div>
                 )}
               </div>

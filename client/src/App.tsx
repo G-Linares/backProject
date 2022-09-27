@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProductGrid from "./Views/ProductGrid";
 import ProductDetails from "./Views/ProductDetails";
 import useLocalStorage from "./utils/LocalStorage";
+import NavBar from "./Components/NavBar";
 
 export const ROUTE_PATHS = {
   Home: "/",
@@ -18,6 +19,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <NavBar />
       <Routes>
         <Route
           path={ROUTE_PATHS.Home}
