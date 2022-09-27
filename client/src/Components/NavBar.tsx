@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
+import { ROUTE_PATHS } from "../App";
 import agave from "../Assets/images/agave.png";
 
 export default function NavBar(): ReactElement {
@@ -13,13 +14,15 @@ export default function NavBar(): ReactElement {
           </span>
         </Link>
         <div className="flex items-center md:order-2">
-          <button
-            className="btn"
-            type="button"
-            data-modal-toggle="defaultModal"
-          >
-            Cart
-          </button>
+          <Link to={ROUTE_PATHS.checkout}>
+            <button
+              className="btn"
+              type="button"
+              data-modal-toggle="defaultModal"
+            >
+              Cart
+            </button>
+          </Link>
         </div>
       </div>
     </nav>

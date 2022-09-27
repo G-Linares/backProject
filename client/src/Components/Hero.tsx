@@ -9,7 +9,7 @@ type Props = {
 const userStates = ["Cliente", "Admin"];
 
 export default function Hero({ userType, setUserType }: Props) {
-  const { setCopy } = useGlobalContext();
+  const { setUserTypeState } = useGlobalContext();
   const [currentType, setCurrentType] = useState("");
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function Hero({ userType, setUserType }: Props) {
     //current Type para prender botonoes de colores
     setCurrentType(item);
     // para cambiar el estado global
-    setCopy(item);
+    setUserTypeState(item);
   };
   return (
     <section className="bg-white dark:bg-gray-900">

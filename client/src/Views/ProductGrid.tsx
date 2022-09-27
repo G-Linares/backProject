@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import { useCart } from "react-use-cart";
 import { navigateToRoute } from "../App";
 import AdminButtons from "../Components/AdminButtons";
 import Form from "../Components/Form";
@@ -22,6 +23,8 @@ export default function ProductGrid({
   const { data, isLoading }: TApiResponse = useApiGet(
     "http://localhost:8080/api/productos"
   );
+
+  const { addItem } = useCart();
 
   return (
     <div className="bg-white">
@@ -71,7 +74,7 @@ export default function ProductGrid({
                     </Link>
                     <button
                       className="btn flex mx-auto mt-5"
-                      onClick={() => console.log("agregar al carro")}
+                      onClick={() => addItem(item)}
                     >
                       {" "}
                       Agregar al Carrito

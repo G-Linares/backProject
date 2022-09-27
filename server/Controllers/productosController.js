@@ -27,7 +27,7 @@ export const addOne = (req, res) => {
     ...url,
     // crea un nuevo id dependiendo del ultimo item,
     id: getNewId(allProducts.length),
-    precio: parseInt(url.precio, 10),
+    price: parseInt(url.price, 10),
     stock: parseInt(url.stock, 10),
     alcohol: parseInt(url.alcohol, 10)
   };

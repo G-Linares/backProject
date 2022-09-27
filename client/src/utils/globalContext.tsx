@@ -2,11 +2,11 @@ import { createContext, useContext } from "react";
 
 //global state para manejar el tipo de usuario ---
 export type GlobalContent = {
-  copy: string;
-  setCopy: (c: string) => void;
+  userTypeState: string;
+  setUserTypeState: (c: string) => void;
 };
 export const MyGlobalContext = createContext<GlobalContent>({
-  copy: "Hello World", // set a default value
-  setCopy: () => {}
+  userTypeState: "Hello World", // set a default value
+  setUserTypeState: () => {}
 });
 export const useGlobalContext = () => useContext(MyGlobalContext);

@@ -15,7 +15,7 @@ export default function AdminButtons({
   let navigate = useNavigate();
 
   //este es el estado global donde esta almacenado el tipo de usuario
-  const { copy } = useGlobalContext();
+  const { userTypeState } = useGlobalContext();
 
   //verifica que el usuario sea admin, y regresa true or false al pedido de axios que permite o deniuega el delete
   const IsAdmin = (currentStatus: string) => {
@@ -31,7 +31,7 @@ export default function AdminButtons({
     try {
       axios
         .delete(`http://localhost:8080/api/productos/${idOfElement}`, {
-          headers: { isadmin: IsAdmin(copy) }
+          headers: { isadmin: IsAdmin(userTypeState) }
         })
         .then(() => {
           Swal.fire({
@@ -39,6 +39,7 @@ export default function AdminButtons({
             title: "Item Borrado!",
             text: "Item Borrado satisfactoriamente"
           }).then(() => {
+            navigate("/");
             window.location.reload();
           });
         });

@@ -12,7 +12,7 @@ interface FormDataType {
   descripcion: string;
   codigo: string;
   foto: string;
-  precio: number;
+  price: number;
   stock: number;
   type: string;
   alcohol: number;
@@ -24,7 +24,7 @@ export default function Form(): ReactElement {
   const [descripcion, setDescripcion] = useState("");
   const [codigo, setCodigo] = useState("");
   const [foto, setFoto] = useState("");
-  const [precio, setPrecio] = useState(0);
+  const [price, setPrice] = useState(0);
   const [stock, setStock] = useState(0);
   const [type, setType] = useState("");
   const [alcohol, setAlcohol] = useState(0);
@@ -35,7 +35,7 @@ export default function Form(): ReactElement {
     descripcion: "",
     codigo: "",
     foto: "",
-    precio: 0,
+    price: 0,
     stock: 0,
     type: "",
     alcohol: 0,
@@ -56,7 +56,7 @@ export default function Form(): ReactElement {
     responseBody.descripcion = descripcion;
     responseBody.codigo = codigo;
     responseBody.foto = foto;
-    responseBody.precio = precio;
+    responseBody.price = price;
     responseBody.stock = stock;
     responseBody.type = type;
     responseBody.alcohol = alcohol;
@@ -73,7 +73,7 @@ export default function Form(): ReactElement {
         setDescripcion("");
         setCodigo("");
         setFoto("");
-        setPrecio(0);
+        setPrice(0);
         setStock(0);
         setType("");
         setAlcohol(0);
@@ -190,17 +190,17 @@ export default function Form(): ReactElement {
         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="precio"
+            htmlFor="price"
           >
             Precio
           </label>
           <input
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="precio"
+            id="price"
             type="number"
             placeholder="$"
-            value={precio}
-            onChange={(e) => inputChangeHandler(setPrecio, e)}
+            value={price}
+            onChange={(e) => inputChangeHandler(setPrice, e)}
           />
         </div>
         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">

@@ -9,7 +9,7 @@ import { useGlobalContext } from "../utils/globalContext";
 
 export default function ProductDetails() {
   const { id } = useParams<any>();
-  const { copy } = useGlobalContext();
+  const { userTypeState } = useGlobalContext();
   const { data, isLoading }: TApiResponse = useApiGet(
     `http://localhost:8080/api/productos/${id}`
   );
@@ -49,7 +49,7 @@ export default function ProductDetails() {
                   </span>
                   <button className="flex ml-auto btn">Comprar</button>
                 </div>
-                {copy === "Admin" && (
+                {userTypeState === "Admin" && (
                   <div className="mt-4">
                     <AdminButtons idOfElement={data.id} />
                   </div>
