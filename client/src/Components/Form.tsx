@@ -1,6 +1,8 @@
+import React, { ReactElement, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import React, { ReactElement, useState } from "react";
+
+// import isAdmin from "../utils/isAdmin";
 
 // me hubiera podido evitar tanto boilerplate code pero no queria utilizar formik
 // queria hacerlo manualmente de uno en uno, por eso es tanto codigo
@@ -16,6 +18,7 @@ interface FormDataType {
   alcohol: number;
   region: string;
 }
+// cada elemento del form tiene su estado y su tipo para poder mandar al back dentro del post
 export default function Form(): ReactElement {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -58,8 +61,13 @@ export default function Form(): ReactElement {
     responseBody.type = type;
     responseBody.alcohol = alcohol;
     responseBody.region = region;
+    //se hace el llamado al back con la URL que corresponde a addOne, con el nuevo objecto completo y modelado
+    //y con los headers para verificar si es admin, ya el servidor validara esta variable y regresara 403 si no es admin
+    //y un 200 si es admin y agrega el item
     axios
-      .post("http://localhost:8080/api/productos/", responseBody)
+      .post("http://localhost:8080/api/productos/", responseBody, {
+        headers: { isadmin: true }
+      })
       .then((response) => {
         setNombre("");
         setDescripcion("");
@@ -73,7 +81,7 @@ export default function Form(): ReactElement {
         Swal.fire({
           icon: "success",
           title: "Todo Bien!",
-          text: "Item agregado correctamente"
+          text: response.data.message
         }).then(() => {
           window.location.reload();
         });
@@ -82,7 +90,7 @@ export default function Form(): ReactElement {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: error
+          text: error.response.data.descripcion
         });
       });
   };

@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useGlobalContext } from "../utils/globalContext";
 
 export interface AdminButtonsType {
   idOfElement: number;
@@ -13,10 +14,25 @@ export default function AdminButtons({
   // esto va a redireccionar cuando se cumpla una accion
   let navigate = useNavigate();
 
+  //este es el estado global donde esta almacenado el tipo de usuario
+  const { copy } = useGlobalContext();
+
+  //verifica que el usuario sea admin, y regresa true or false al pedido de axios que permite o deniuega el delete
+  const IsAdmin = (currentStatus: string) => {
+    if (currentStatus === "Admin") {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // funcion para borrar un item
   const handleErease = () => {
     try {
       axios
-        .delete(`http://localhost:8080/api/productos/${idOfElement}`)
+        .delete(`http://localhost:8080/api/productos/${idOfElement}`, {
+          headers: { isadmin: IsAdmin(copy) }
+        })
         .then(() => {
           Swal.fire({
             icon: "success",
@@ -35,6 +51,7 @@ export default function AdminButtons({
     }
   };
 
+  // funcion para editar un producto
   const handleEdit = (e: any) => {
     console.log("quieres editar", e);
     navigate("/");

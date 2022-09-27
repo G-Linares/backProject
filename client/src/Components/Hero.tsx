@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useGlobalContext } from "../utils/globalContext";
 
 type Props = {
   userType: string;
@@ -8,6 +9,7 @@ type Props = {
 const userStates = ["Cliente", "Admin"];
 
 export default function Hero({ userType, setUserType }: Props) {
+  const { setCopy } = useGlobalContext();
   const [currentType, setCurrentType] = useState("");
 
   useEffect(() => {
@@ -15,8 +17,12 @@ export default function Hero({ userType, setUserType }: Props) {
   }, [setCurrentType, userType]);
 
   const handleChangeType = (item: string) => {
+    // para cambiar el estado en Local Storage
     setUserType(item);
+    //current Type para prender botonoes de colores
     setCurrentType(item);
+    // para cambiar el estado global
+    setCopy(item);
   };
   return (
     <section className="bg-white dark:bg-gray-900">

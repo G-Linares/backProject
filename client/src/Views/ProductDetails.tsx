@@ -5,17 +5,14 @@ import { RotatingLines } from "react-loader-spinner";
 // como este hook puede utilizarse para hacer un get, solo modifico el URL y jalo solo un item
 import { useApiGet, TApiResponse } from "../utils/fetchProducts";
 import AdminButtons from "../Components/AdminButtons";
+import { useGlobalContext } from "../utils/globalContext";
 
-type Props = {
-  userType: string;
-};
-
-export default function ProductDetails({ userType }: Props) {
+export default function ProductDetails() {
   const { id } = useParams<any>();
+  const { copy } = useGlobalContext();
   const { data, isLoading }: TApiResponse = useApiGet(
     `http://localhost:8080/api/productos/${id}`
   );
-
   return (
     <>
       {isLoading ? (
@@ -44,7 +41,6 @@ export default function ProductDetails({ userType }: Props) {
                 <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
                   {data.nombre}
                 </h1>
-
                 <p className="leading-relaxed">{data.descripcion}</p>
                 <div className="pb-5 border-b-2 border-gray-200 mb-5"></div>
                 <div className="flex">
@@ -53,7 +49,7 @@ export default function ProductDetails({ userType }: Props) {
                   </span>
                   <button className="flex ml-auto btn">Comprar</button>
                 </div>
-                {userType === "Admin" && (
+                {copy === "Admin" && (
                   <div className="mt-4">
                     <AdminButtons idOfElement={data.id} />
                   </div>
