@@ -45,13 +45,13 @@ export default function ProductDetails() {
                 <div className="pb-5 border-b-2 border-gray-200 mb-5"></div>
                 <div className="flex">
                   <span className="title-font font-medium text-2xl text-gray-900">
-                    ${data.precio}.00 MXN
+                    ${data.price}.00 MXN
                   </span>
                   <button className="flex ml-auto btn">Comprar</button>
                 </div>
                 {userTypeState === "Admin" && (
                   <div className="mt-4">
-                    <AdminButtons idOfElement={data.id} />
+                    <AdminButtons element={data} />
                   </div>
                 )}
               </div>

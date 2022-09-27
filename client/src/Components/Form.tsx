@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 
 // me hubiera podido evitar tanto boilerplate code pero no queria utilizar formik
 // queria hacerlo manualmente de uno en uno, por eso es tanto codigo
-
 interface FormDataType {
   nombre: string;
   descripcion: string;

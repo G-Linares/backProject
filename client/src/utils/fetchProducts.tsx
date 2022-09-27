@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+//se planea usar fetch para que el app pueda funcionar en todos los browsers y tambien obtener el URL
 
 export type TApiResponse = {
   data: any;

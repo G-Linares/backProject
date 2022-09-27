@@ -1,16 +1,20 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useGlobalContext } from "../utils/globalContext";
+import EditModal from "./EditModal";
 
+//element es toda la informacion del item, su ID, nombre, precio etc
+// ahorita tiene tipo any por que solo quiero pasarlo para probar
 export interface AdminButtonsType {
-  idOfElement: number;
+  element: any;
 }
 
 export default function AdminButtons({
-  idOfElement
+  element
 }: AdminButtonsType): ReactElement {
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   // esto va a redireccionar cuando se cumpla una accion
   let navigate = useNavigate();
 
@@ -26,11 +30,11 @@ export default function AdminButtons({
     }
   };
 
-  // funcion para borrar un item
+  // funcion para borrar un item, mandamos el delete con el id del elemento a borrar
   const handleErease = () => {
     try {
       axios
-        .delete(`http://localhost:8080/api/productos/${idOfElement}`, {
+        .delete(`http://localhost:8080/api/productos/${element.id}`, {
           headers: { isadmin: IsAdmin(userTypeState) }
         })
         .then(() => {
@@ -54,7 +58,8 @@ export default function AdminButtons({
 
   // funcion para editar un producto
   const handleEdit = (e: any) => {
-    console.log("quieres editar", e);
+    setModalIsOpen(true);
+    document.body.style.overflow = "hidden";
     navigate("/");
   };
 
@@ -73,6 +78,13 @@ export default function AdminButtons({
       >
         Editar
       </button>
+      {/* cuando presionamos Editar, el handleEdit abre un modal para poder mandar
+      un request con la nueva info a ingresar al sistema */}
+      <EditModal
+        modalIsOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
+        element={element}
+      />
     </div>
   );
 }
