@@ -6,20 +6,18 @@ import ProductDetails from "./Views/ProductDetails";
 import useLocalStorage from "./utils/LocalStorage";
 import NavBar from "./Components/NavBar";
 import { MyGlobalContext } from "./utils/globalContext";
-import Checkout from "./Views/Checkout";
 
 // ---- de aqui manejo las rutas para poder interactuar con las dinamicas y tener mas limio el codigo ---
 export const ROUTE_PATHS = {
   Home: "/",
-  ProductDetails: "/product-detail/:id",
-  checkout: "/checkout"
+  ProductDetails: "/product-detail/:id"
 };
 export const navigateToRoute = {
   goToProductDetails: (id: string) =>
     `${ROUTE_PATHS.ProductDetails}`.replace(":id", id)
 };
 
-// --------
+// ----------
 
 const App = () => {
   // inicializo el local Storage dependiendo el global state que declare antes con el contexto
@@ -44,7 +42,6 @@ const App = () => {
               path={ROUTE_PATHS.ProductDetails}
               element={<ProductDetails />}
             />
-            <Route path={ROUTE_PATHS.checkout} element={<Checkout />} />
           </Routes>
         </BrowserRouter>
       </CartProvider>

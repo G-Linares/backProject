@@ -34,15 +34,15 @@ export default function EditModal({
     region: string;
   }
 
-  const [nombre, setNombre] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [codigo, setCodigo] = useState("");
-  const [foto, setFoto] = useState("");
-  const [price, setPrice] = useState(0);
-  const [stock, setStock] = useState(0);
-  const [type, setType] = useState("");
-  const [alcohol, setAlcohol] = useState(0);
-  const [region, setRegion] = useState("");
+  const [nombre, setNombre] = useState(element.nombre);
+  const [descripcion, setDescripcion] = useState(element.descripcion);
+  const [codigo, setCodigo] = useState(element.codigo);
+  const [foto, setFoto] = useState(element.foto);
+  const [price, setPrice] = useState(element.price);
+  const [stock, setStock] = useState(element.stock);
+  const [type, setType] = useState(element.type);
+  const [alcohol, setAlcohol] = useState(element.alcohol);
+  const [region, setRegion] = useState(element.region);
 
   const responseBody: FormDataType = {
     nombre: "",

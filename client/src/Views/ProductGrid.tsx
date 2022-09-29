@@ -24,7 +24,12 @@ export default function ProductGrid({
     "http://localhost:8080/api/productos"
   );
 
+  //libreria de context para carrito para auziliarme
   const { addItem } = useCart();
+
+  const handleAddCarrito = (item: any) => {
+    addItem(item);
+  };
 
   return (
     <div className="bg-white">
@@ -74,7 +79,7 @@ export default function ProductGrid({
                     </Link>
                     <button
                       className="btn flex mx-auto mt-5"
-                      onClick={() => addItem(item)}
+                      onClick={() => handleAddCarrito(item)}
                     >
                       {" "}
                       Agregar al Carrito
