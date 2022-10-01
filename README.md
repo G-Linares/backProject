@@ -50,6 +50,8 @@ Así lo puedes instalar
    npm start
    ```
 
+### Algunas rutas de Carrito no se pueden probar con front, mas info en readme de Server
+
 ## Roadmap
 
 - [x] Entregable 1
