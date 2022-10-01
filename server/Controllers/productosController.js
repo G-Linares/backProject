@@ -46,13 +46,14 @@ export const addOne = async (req, res) => {
       alcohol: parseInt(url.alcohol, 10)
     };
     // le hace push al array existente
-    await contenedor.save(modeledNewItem);
+    items.push(modeledNewItem);
+    await contenedor.saveAll(items);
     res
       .status(200)
       .json({ status: "OK", message: "Item Agregado Satisfactoriamente" });
   } catch (e) {
     return res
-      .status(500)
+      .status(501)
       .json({ status: "ERROR", message: "No se pudo agregar item", e });
   }
 };
