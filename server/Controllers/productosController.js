@@ -1,39 +1,52 @@
-import { allProducts } from "../Data/allProducts.js";
 import { getNewId, removeObjectWithId } from "../utils/productosUtils.js";
+import { Contenedor } from "../Class/Contenedor.js";
+
+const contenedor = new Contenedor("./Data/productos.json");
+
+//tengo que admitir que hubiera podido organizar mas la logica y meter todo en la clase
+//pero no quiero mover tanto codigo, es por eso que en algunas rutas el procesamiento
+// lo encuentras aqui, no en la clase
 
 export const ping = (req, res) => {
-  res.status(200).json({ status: "OK" });
+  res.status(200).json({ message: "ok" });
 };
 
 // se hace llamado a este metodo en <ProductGrid/>
-export const getAll = (req, res) => {
+export const getAll = async (req, res) => {
+  const allProducts = await contenedor.getAll();
   res.status(200).json(allProducts);
 };
 // se hace llamado a este metodo en <ProductDetail />
-export const getOne = (req, res) => {
+export const getOne = async (req, res) => {
   const { id } = req.params;
   if (!id)
     return res
       .status(500)
       .json({ status: "ERROR", message: "Item No Encontrado" });
-  const resultingProd = allProducts[id - 1];
-  res.status(200).json(resultingProd);
+
+  try {
+    const resultingProd = await contenedor.getById(id);
+    res.status(200).json(resultingProd);
+  } catch (e) {
+    res.status(500).json({ status: "Error", message: "success" });
+  }
 };
 
 // se hace llamado a este metodo en <Form/>
-export const addOne = (req, res) => {
+export const addOne = async (req, res) => {
   try {
     const url = req.body;
+    const items = await contenedor.getAll();
     let modeledNewItem = {
       ...url,
       // crea un nuevo id dependiendo del ultimo item,
-      id: getNewId(allProducts.length),
+      id: getNewId(items.length),
       price: parseInt(url.price, 10),
       stock: parseInt(url.stock, 10),
       alcohol: parseInt(url.alcohol, 10)
     };
     // le hace push al array existente
-    allProducts.push(modeledNewItem);
+    await contenedor.save(modeledNewItem);
     res
       .status(200)
       .json({ status: "OK", message: "Item Agregado Satisfactoriamente" });
@@ -45,14 +58,17 @@ export const addOne = (req, res) => {
 };
 
 //agarra el id del item a modificar y la nueva data y la mezcla en el array existente
-export const modifyOne = (req, res) => {
+export const modifyOne = async (req, res) => {
+  //prefiero hacer la logica aquii por que solo es reescribir el array
   const newItemData = req.body;
   const idOfItem = req.params.id;
+  const allCurrentProducts = await contenedor.getAll();
   try {
-    allProducts[idOfItem - 1] = {
+    allCurrentProducts[idOfItem - 1] = {
       ...newItemData,
-      id: allProducts[idOfItem - 1].id
+      id: allCurrentProducts[idOfItem - 1].id
     };
+    await contenedor.saveAll(allCurrentProducts);
     return res
       .status(200)
       .json({ status: "OK", message: "Item Editado Satisfactoriamente" });
@@ -64,11 +80,13 @@ export const modifyOne = (req, res) => {
 };
 
 //se hace llamado a este metodo solo en <AdminButtons />
-export const deleteOne = (req, res) => {
+export const deleteOne = async (req, res) => {
   let itemId = parseInt(req.params.id, 10);
-  //funcion para borrar un item, arumnetos recibe la array y el id del elemento
+  const allCurrentItem = await contenedor.getAll();
   try {
-    removeObjectWithId(allProducts, itemId);
+    //funcion para borrar un item, arumnetos recibe la array y el id del elemento
+    const resultingArray = removeObjectWithId(allCurrentItem, itemId);
+    contenedor.saveAll(resultingArray);
     res
       .status(200)
       .json({ status: "OK", message: "Item Borrado Satisfactoriamente" });

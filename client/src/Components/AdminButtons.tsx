@@ -60,7 +60,6 @@ export default function AdminButtons({
   const handleEdit = (e: any) => {
     setModalIsOpen(true);
     document.body.style.overflow = "hidden";
-    navigate("/");
   };
 
   return (

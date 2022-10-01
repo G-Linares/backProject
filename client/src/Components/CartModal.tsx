@@ -36,10 +36,8 @@ export default function CartModal({
           emptyCart();
           setModalIsOpen(false);
           navigate("/");
-          console.log("este es el id del carrito", response.data);
         })
         .catch((response) => {
-          console.log(response.response.data.message);
           Swal.fire({
             icon: "error",
             title: "Oops...",
