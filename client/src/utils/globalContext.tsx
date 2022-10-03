@@ -6,7 +6,7 @@ export type GlobalContent = {
   setUserTypeState: (c: string) => void;
 };
 export const MyGlobalContext = createContext<GlobalContent>({
-  userTypeState: "Hello World", // set a default value
+  userTypeState: "", // set a default value
   setUserTypeState: () => {}
 });
 export const useGlobalContext = () => useContext(MyGlobalContext);

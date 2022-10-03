@@ -4,6 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useGlobalContext } from "../utils/globalContext";
 import EditModal from "./EditModal";
+import { IsAdminVerificator } from "../utils/IsAdminVerificator";
 
 //element es toda la informacion del item, su ID, nombre, precio etc
 // ahorita tiene tipo any por que solo quiero pasarlo para probar
@@ -18,24 +19,16 @@ export default function AdminButtons({
   // esto va a redireccionar cuando se cumpla una accion
   let navigate = useNavigate();
 
-  //este es el estado global donde esta almacenado el tipo de usuario
+  //este es el estado global donde esta almacenado el tipo de usuario ""
   const { userTypeState } = useGlobalContext();
-
-  //verifica que el usuario sea admin, y regresa true or false al pedido de axios que permite o deniuega el delete
-  const IsAdmin = (currentStatus: string) => {
-    if (currentStatus === "Admin") {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   // funcion para borrar un item, mandamos el delete con el id del elemento a borrar
   const handleErease = () => {
     try {
       axios
-        .delete(`http://localhost:8080/api/productos/${element.id}`, {
-          headers: { isadmin: IsAdmin(userTypeState) }
+        .delete(`${process.env.REACT_APP_PRODUCT_API_ROUTE}/${element.id}`, {
+          headers: {
+            isadmin: JSON.stringify(IsAdminVerificator(userTypeState))
+          }
         })
         .then(() => {
           Swal.fire({
@@ -45,6 +38,13 @@ export default function AdminButtons({
           }).then(() => {
             navigate("/");
             window.location.reload();
+          });
+        })
+        .catch((response) => {
+          Swal.fire({
+            icon: "error",
+            title: "No tienes permisos para borrarlo",
+            text: response.message
           });
         });
     } catch (error: any) {
@@ -56,7 +56,7 @@ export default function AdminButtons({
     }
   };
 
-  // funcion para editar un producto
+  // funcion para editar un producto y abriri modal
   const handleEdit = (e: any) => {
     setModalIsOpen(true);
     document.body.style.overflow = "hidden";

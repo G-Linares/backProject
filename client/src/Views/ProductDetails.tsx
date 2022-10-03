@@ -10,8 +10,9 @@ import { useGlobalContext } from "../utils/globalContext";
 export default function ProductDetails() {
   const { id } = useParams<any>();
   const { userTypeState } = useGlobalContext();
+  //este es un get al API listando todos los productos
   const { data, isLoading }: TApiResponse = useApiGet(
-    `http://localhost:8080/api/productos/${id}`
+    `${process.env.REACT_APP_PRODUCT_API_ROUTE}/${id}`
   );
   return (
     <>

@@ -52,11 +52,13 @@ export default function Hero({ userType, setUserType }: Props) {
             );
           })}
         </div>
-        <div className="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36">
-          <span className="font-semibold text-gray-400 uppercase text-2xl">
-            Todos nuestros productos
-          </span>
-        </div>
+        {userType === "Cliente" && (
+          <div className="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36 -mb-32">
+            <span className="font-semibold text-gray-400 uppercase text-2xl">
+              Todos nuestros productos
+            </span>
+          </div>
+        )}
       </div>
     </section>
   );

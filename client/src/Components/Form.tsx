@@ -2,7 +2,8 @@ import React, { ReactElement, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-// import isAdmin from "../utils/isAdmin";
+import { useGlobalContext } from "../utils/globalContext";
+import { IsAdminVerificator } from "../utils/IsAdminVerificator";
 
 // me hubiera podido evitar tanto boilerplate code pero no queria utilizar formik
 // queria hacerlo manualmente de uno en uno, por eso es tanto codigo
@@ -29,6 +30,10 @@ export default function Form(): ReactElement {
   const [alcohol, setAlcohol] = useState(0);
   const [region, setRegion] = useState("");
 
+  // esto es para ver que el tipo de usuario que es, la variable es global y esta en este contexto
+  const { userTypeState } = useGlobalContext();
+
+  //tipando los tipos de dato
   const responseBody: FormDataType = {
     nombre: "",
     descripcion: "",
@@ -64,8 +69,8 @@ export default function Form(): ReactElement {
     //y con los headers para verificar si es admin, ya el servidor validara esta variable y regresara 403 si no es admin
     //y un 200 si es admin y agrega el item
     axios
-      .post("http://localhost:8080/api/productos/", responseBody, {
-        headers: { isadmin: true }
+      .post(`${process.env.REACT_APP_PRODUCT_API_ROUTE}/`, responseBody, {
+        headers: { isadmin: JSON.stringify(IsAdminVerificator(userTypeState)) }
       })
       .then((response) => {
         setNombre("");
@@ -97,19 +102,16 @@ export default function Form(): ReactElement {
   return (
     <form
       onSubmit={onSubmitHandler}
-      className="w-full max-w-lg mx-auto md:-mt-20 md:mb-14 -mt-10"
+      className="w-full max-w-lg mx-auto md:-mt-36 md:mb-14 -mt-10"
     >
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="nombre"
-          >
+          <label className="input-lable" htmlFor="nombre">
             Nombre
           </label>
           <input
             required
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            className="starting-input"
             id="nombre"
             type="text"
             onChange={(e) => inputChangeHandler(setNombre, e)}
@@ -117,15 +119,12 @@ export default function Form(): ReactElement {
           />
         </div>
         <div className="w-full md:w-1/2 px-3">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="type"
-          >
+          <label className="input-lable" htmlFor="type">
             Tipo
           </label>
           <input
             required
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="input-gray"
             id="type"
             type="text"
             value={type}
@@ -133,14 +132,11 @@ export default function Form(): ReactElement {
           />
         </div>
         <div className="w-full md:w-1/2 px-3">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="region"
-          >
+          <label className="input-lable" htmlFor="region">
             Región
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="input-gray"
             id="region"
             type="text"
             value={region}
@@ -148,14 +144,11 @@ export default function Form(): ReactElement {
           />
         </div>
         <div className="w-full md:w-1/2 px-3">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="alcohol"
-          >
+          <label className="input-lable" htmlFor="alcohol">
             Nivel de Alcohol
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="input-gray"
             id="alcohol"
             type="number"
             placeholder="Doe"
@@ -166,14 +159,11 @@ export default function Form(): ReactElement {
       </div>
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full px-3">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="descripcion"
-          >
+          <label className="input-lable" htmlFor="descripcion">
             Descripción
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="starting-input"
             id="descripcion"
             type="text"
             placeholder="Descripción"
@@ -187,14 +177,11 @@ export default function Form(): ReactElement {
       </div>
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="price"
-          >
+          <label className="input-lable" htmlFor="price">
             Precio
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="input-gray"
             id="price"
             type="number"
             placeholder="$"
@@ -203,14 +190,11 @@ export default function Form(): ReactElement {
           />
         </div>
         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="stock"
-          >
+          <label className="input-lable" htmlFor="stock">
             Stock
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="input-gray"
             id="stock"
             type="number"
             placeholder="#"
@@ -219,14 +203,11 @@ export default function Form(): ReactElement {
           />
         </div>
         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="codigo"
-          >
+          <label className="input-lable" htmlFor="codigo">
             Código
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="input-gray"
             id="codigo"
             type="number"
             placeholder="#"
@@ -237,14 +218,11 @@ export default function Form(): ReactElement {
       </div>
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full px-3">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="descripcion"
-          >
+          <label className="input-lable" htmlFor="descripcion">
             URL de Foto
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="starting-input"
             id="descripcion"
             type="text"
             placeholder="Descripción"
@@ -253,10 +231,7 @@ export default function Form(): ReactElement {
           />
         </div>
       </div>
-      <button
-        type="submit"
-        className="mx-auto mt-6 mb-6 block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-blue-700"
-      >
+      <button type="submit" className="mx-auto mt-6 mb-6 block btn">
         {" "}
         Agregar Nuevo Mezcal
       </button>

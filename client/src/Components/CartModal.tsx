@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import Swal from "sweetalert2";
 import empty from "../Assets/images/empty.png";
-
-import ItemInModal from "./ItemInModal";
+import ItemInCart from "./ItemInCart";
 interface CartModalTypes {
   modalIsOpen: boolean;
   setModalIsOpen: (e: boolean) => void;
@@ -25,7 +24,7 @@ export default function CartModal({
   const handleSubmitCart = () => {
     try {
       axios
-        .post("http://localhost:8080/api/carrito/", items)
+        .post(`${process.env.REACT_APP_CARRITO_API_ROUTE}/`, items)
         .then((response) => {
           Swal.fire({
             icon: "success",
@@ -96,7 +95,7 @@ export default function CartModal({
               <div className="flow-root">
                 <ul className="-my-6 divide-y divide-gray-200">
                   {items.map((item, idx) => {
-                    return <ItemInModal itemData={item} key={item.nombre} />;
+                    return <ItemInCart itemData={item} key={item.nombre} />;
                   })}
                 </ul>
               </div>
@@ -135,7 +134,7 @@ export default function CartModal({
           >
             Continuar
           </button>
-          {/* <CartStaticModal /> */}
+          {/* <CartStaticModal />   */}
         </div>
       </div>
     </div>

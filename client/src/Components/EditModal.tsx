@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+import { useGlobalContext } from "../utils/globalContext";
+import { IsAdminVerificator } from "../utils/IsAdminVerificator";
+
 //tipo de datos de los props en EditModal
 interface PropTypes {
   element: any;
@@ -44,6 +47,9 @@ export default function EditModal({
   const [alcohol, setAlcohol] = useState(element.alcohol);
   const [region, setRegion] = useState(element.region);
 
+  // esto es para ver que el tipo de usuario que es, la variable es global y esta en este contexto
+  const { userTypeState } = useGlobalContext();
+
   const responseBody: FormDataType = {
     nombre: "",
     descripcion: "",
@@ -77,9 +83,15 @@ export default function EditModal({
     responseBody.region = region;
     //lo mismo que tengo en el formulario principal, todo el modelado y el submit handler igual, quizas despues lo modularize
     axios
-      .put(`http://localhost:8080/api/productos/${element.id}`, responseBody, {
-        headers: { isadmin: true }
-      })
+      .put(
+        `${process.env.REACT_APP_PRODUCT_API_ROUTE}/${element.id}`,
+        responseBody,
+        {
+          headers: {
+            isadmin: JSON.stringify(IsAdminVerificator(userTypeState))
+          }
+        }
+      )
       .then((response) => {
         setNombre("");
         setDescripcion("");
@@ -152,7 +164,7 @@ export default function EditModal({
                   type="text"
                   name="nombre"
                   id="nombre"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
+                  className="input-modify-modal  "
                   placeholder={element.nombre}
                   value={nombre}
                   required
@@ -160,10 +172,7 @@ export default function EditModal({
                 />
               </div>
               <div>
-                <label
-                  htmlFor="type"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
+                <label htmlFor="type" className="lable-modify-modal">
                   Nuevo Tipo
                 </label>
                 <input
@@ -171,17 +180,14 @@ export default function EditModal({
                   name="type"
                   id="type"
                   placeholder={element.type}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  className="input-modify-modal"
                   value={type}
                   required
                   onChange={(e) => inputChangeHandler(setType, e)}
                 />
               </div>
               <div>
-                <label
-                  htmlFor="codigo"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
+                <label htmlFor="codigo" className="lable-modify-modal">
                   Nuevo Codigo
                 </label>
                 <input
@@ -189,17 +195,14 @@ export default function EditModal({
                   name="codigo"
                   id="codigo"
                   placeholder={element.codigo}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  className="input-modify-modal  "
                   required
                   value={codigo}
                   onChange={(e) => inputChangeHandler(setCodigo, e)}
                 />
               </div>
               <div>
-                <label
-                  htmlFor="foto"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
+                <label htmlFor="foto" className="lable-modify-modal">
                   Nueva Foto (URL)
                 </label>
                 <input
@@ -207,17 +210,14 @@ export default function EditModal({
                   name="foto"
                   id="foto"
                   placeholder={element.foto}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  className="input-modify-modal  "
                   required
                   value={foto}
                   onChange={(e) => inputChangeHandler(setFoto, e)}
                 />
               </div>
               <div>
-                <label
-                  htmlFor="price"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
+                <label htmlFor="price" className="lable-modify-modal">
                   Nuevo Precio
                 </label>
                 <input
@@ -225,17 +225,14 @@ export default function EditModal({
                   name="price"
                   id="price"
                   placeholder={element.price}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  className="input-modify-modal  "
                   required
                   value={price}
                   onChange={(e) => inputChangeHandler(setPrice, e)}
                 />
               </div>
               <div>
-                <label
-                  htmlFor="stock"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
+                <label htmlFor="stock" className="lable-modify-modal">
                   Nuevo Stock
                 </label>
                 <input
@@ -243,17 +240,14 @@ export default function EditModal({
                   name="stock"
                   id="stock"
                   placeholder={element.stock}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  className="input-modify-modal  "
                   required
                   value={stock}
                   onChange={(e) => inputChangeHandler(setStock, e)}
                 />
               </div>
               <div>
-                <label
-                  htmlFor="alcohol"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
+                <label htmlFor="alcohol" className="lable-modify-modal">
                   Nuevo % de Alcohol
                 </label>
                 <input
@@ -261,17 +255,14 @@ export default function EditModal({
                   name="alcohol"
                   id="alcohol"
                   placeholder={element.alcohol}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  className="input-modify-modal  "
                   required
                   value={alcohol}
                   onChange={(e) => inputChangeHandler(setAlcohol, e)}
                 />
               </div>
               <div>
-                <label
-                  htmlFor="region"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
+                <label htmlFor="region" className="lable-modify-modal">
                   Nueva Región
                 </label>
                 <input
@@ -279,17 +270,14 @@ export default function EditModal({
                   name="region"
                   id="region"
                   placeholder={element.region}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  className="input-modify-modal  "
                   required
                   value={region}
                   onChange={(e) => inputChangeHandler(setRegion, e)}
                 />
               </div>
               <div>
-                <label
-                  htmlFor="descripcion"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
+                <label htmlFor="descripcion" className="lable-modify-modal">
                   Nueva Descripción
                 </label>
                 <input
@@ -297,7 +285,7 @@ export default function EditModal({
                   name="descripcion"
                   id="descripcion"
                   placeholder={element.descripcion}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  className="input-modify-modal  "
                   required
                   value={descripcion}
                   onChange={(e) => inputChangeHandler(setDescripcion, e)}

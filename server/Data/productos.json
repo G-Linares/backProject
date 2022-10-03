@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "timestamp": "ahorita",
+    "timestamp": "Mon Sep 26 2022 13:28:53 GMT-0500",
     "nombre": "Alerón",
     "descripcion": "Mezcal Alerón es un Mezcal artesanal de Durango elaborado con Agave Cenizo (Agave Duranguensis).",
     "codigo": "123asda1234",
@@ -13,7 +13,7 @@
     "region": "Durango"
   },
   {
-    "nombre": "Pulquero3",
+    "nombre": "Pulquero",
     "descripcion": "El Mezcal Pulquero es aquel que está hecho con Agave Salmiana o Maguey Pulquero o Maguey Verde como también se le conoce. El uso más famoso del Maguey Pulquero es para hacer Pulque. El Pulque es famoso por su consistencia viscosa o babosa; el Mezcal Pulquero no tiene esa consistencia.",
     "codigo": "123asda1234",
     "foto": "https://images.pexels.com/photos/11751922/pexels-photo-11751922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -22,6 +22,7 @@
     "type": "Salmiana",
     "alcohol": 30,
     "region": "San Luis Potosi",
-    "id": 2
+    "id": 2,
+    "timestamp": "Mon Sep 26 2022 14:01:22 GMT-0500"
   }
 ]

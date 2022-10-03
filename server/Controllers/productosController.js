@@ -41,6 +41,7 @@ export const addOne = async (req, res) => {
       ...url,
       // crea un nuevo id dependiendo del ultimo item,
       id: getNewId(items.length),
+      timestamp: new Date(),
       price: parseInt(url.price, 10),
       stock: parseInt(url.stock, 10),
       alcohol: parseInt(url.alcohol, 10)

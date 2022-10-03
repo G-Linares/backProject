@@ -5,7 +5,7 @@ type Props = {
   itemData: any;
 };
 
-export default function ItemInModal({ itemData }: Props) {
+export default function ItemInCart({ itemData }: Props) {
   //cart hook
   const { updateItemQuantity, removeItem } = useCart();
 

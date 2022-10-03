@@ -21,7 +21,7 @@ export default function ProductGrid({
 }: Props): ReactElement {
   //custom hook for the fetch, as parameter the URL will be required, this is to render all products
   const { data, isLoading }: TApiResponse = useApiGet(
-    "http://localhost:8080/api/productos"
+    `${process.env.REACT_APP_PRODUCT_API_ROUTE}`
   );
 
   //libreria de context para carrito para auziliarme
