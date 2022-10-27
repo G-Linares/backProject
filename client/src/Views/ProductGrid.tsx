@@ -19,7 +19,7 @@ export default function ProductGrid({
   userType,
   setUserType
 }: Props): ReactElement {
-  //custom hook for the fetch, as parameter the URL will be required, this is to render all products
+  // custom hook para el fetch, el URL que se pasa es el del GET para traer todos los items
   const { data, isLoading }: TApiResponse = useApiGet(
     `${process.env.REACT_APP_PRODUCT_API_ROUTE}`
   );
@@ -28,7 +28,9 @@ export default function ProductGrid({
   const { addItem } = useCart();
 
   const handleAddCarrito = (item: any) => {
+    item.id = item._id;
     addItem(item);
+    console.log(item);
   };
   return (
     <div className="bg-white">

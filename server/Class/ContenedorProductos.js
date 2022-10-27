@@ -1,6 +1,7 @@
 import ProductosModel from '../Models/Productos.js';
 
-export class Contenedor {
+export class ContenedorProductos {
+	// mostrar todos los productos
 	async getAllProducts() {
 		try {
 			const allProducts = await ProductosModel.find();
@@ -10,6 +11,7 @@ export class Contenedor {
 		}
 	}
 
+	// obtener un producto por ID
 	async getByIdProduct(id) {
 		try {
 			const item = await ProductosModel.findById(id);
@@ -19,6 +21,7 @@ export class Contenedor {
 		}
 	}
 
+	// guardar un nuevo producto
 	async saveOneProduct(incomingItem) {
 		try {
 			const newItem = new ProductosModel({ ...incomingItem });
@@ -28,6 +31,7 @@ export class Contenedor {
 		}
 	}
 
+	// editar un producto existente
 	async editOneProduct(newItemData, _id) {
 		try {
 			await ProductosModel.updateOne({ _id }, newItemData);
@@ -36,6 +40,7 @@ export class Contenedor {
 		}
 	}
 
+	// borrar un producto existente
 	async deleteOneProduct(_id) {
 		try {
 			await ProductosModel.findByIdAndDelete(_id);

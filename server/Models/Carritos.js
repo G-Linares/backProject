@@ -5,7 +5,10 @@ const CarritosSchema = new Schema({
 	// modelare una tabla como si fuera para un blog
 	productos: Array,
 	id: Number,
-	timestamp: String,
+	timestamp: {
+		type: Date,
+		default: new Date(),
+	},
 });
 
 const CarritosModel = mongoose.model('carritos', CarritosSchema);

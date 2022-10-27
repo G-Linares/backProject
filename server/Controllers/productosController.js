@@ -1,7 +1,7 @@
-import { Contenedor } from '../Class/Contenedor.js';
+import { ContenedorProductos } from '../Class/ContenedorProductos.js';
 
 // este contenedor contiene todas las funciones de mongoos que se van a ocupar en carrito y en productos
-const contenedor = new Contenedor('./Data/productos.json');
+const contenedorProductos = new ContenedorProductos();
 
 // esto es solo un test
 export const ping = async (req, res) => {
@@ -11,7 +11,7 @@ export const ping = async (req, res) => {
 // se hace llamado a este metodo en <ProductGrid/>
 export const getAll = async (req, res) => {
 	try {
-		const allProducts = await contenedor.getAllProducts();
+		const allProducts = await contenedorProductos.getAllProducts();
 		res.status(200).json(allProducts);
 	} catch (e) {
 		res
@@ -24,7 +24,7 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
 	const { id } = req.params;
 	try {
-		const foundItem = await contenedor.getByIdProduct(id);
+		const foundItem = await contenedorProductos.getByIdProduct(id);
 		res.status(200).json(foundItem);
 	} catch (e) {
 		res.status(500).json({ status: 'Error', message: 'success' });
@@ -34,7 +34,7 @@ export const getOne = async (req, res) => {
 // se hace llamado a este metodo en <Form/>
 export const addOne = async (req, res) => {
 	try {
-		await contenedor.saveOneProduct(req.body);
+		await contenedorProductos.saveOneProduct(req.body);
 		return res
 			.status(201)
 			.json({ status: 'OK', message: 'Item Agregado Satisfactoriamente' });
@@ -50,7 +50,7 @@ export const modifyOne = async (req, res) => {
 	const newItemData = req.body;
 	const { id } = req.params;
 	try {
-		await contenedor.editOneProduct(newItemData, id);
+		await contenedorProductos.editOneProduct(newItemData, id);
 		res
 			.status(200)
 			.json({ status: 'OK', message: 'Item Editado Satisfactoriamente' });
@@ -65,7 +65,7 @@ export const modifyOne = async (req, res) => {
 export const deleteOne = async (req, res) => {
 	const { id } = req.params;
 	try {
-		await contenedor.deleteOneProduct(id);
+		await contenedorProductos.deleteOneProduct(id);
 		res
 			.status(200)
 			.json({ status: 'OK', message: 'Item Borrado Satisfactoriamente' });
