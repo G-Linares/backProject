@@ -1,42 +1,46 @@
-import { writeFile, readFile } from 'fs/promises';
+import ProductosModel from '../Models/Productos.js';
 
 export class Contenedor {
-	constructor(filePath) {
-		this.filePath = filePath;
-	}
-
-	async getById(id) {
-		const allCurrentItems = await this.getAll();
-		// regresa un nuevo array con el resultado encontrado, si es undef mete error, si no lo regresa.
-		const filteredArray = allCurrentItems.find(
-			(item) => item.id === JSON.parse(id)
-		);
-		if (!filteredArray) throw new Error('No existe item con ese Id');
-		return filteredArray;
-	}
-
-	async getAll() {
+	async getAllProducts() {
 		try {
-			const allCurrentItems = await readFile(this.filePath, {
-				encoding: 'utf-8',
-			});
-			return JSON.parse(allCurrentItems);
-		} catch (error) {
-			// controlo error por si se quiere imprimir todos y no hay archivo existente, si no hay lo crea y le pone un array
-			await writeFile(this.filePath, JSON.stringify([]), (err) =>
-				console.log("Couldn't Create File: " + err)
-			);
-			return [];
+			const allProducts = await ProductosModel.find();
+			return allProducts;
+		} catch (e) {
+			throw new Error('Algo salio mal al mostrar todos');
 		}
 	}
 
-	async saveAll(allItems) {
-		await writeFile(this.filePath, JSON.stringify(allItems));
+	async getByIdProduct(id) {
+		try {
+			const item = await ProductosModel.findById(id);
+			return item;
+		} catch (e) {
+			throw new Error('Algo salio mal al buscar Id');
+		}
 	}
 
-	createId(allCurrentItems) {
-		// crea un nuevo ID y asigna 1 si es el primero, si no agarra el ultimo id del ultimo id y le suma 1
-		const newID = allCurrentItems.length > 0 ? allCurrentItems.length + 1 : 1;
-		return newID;
+	async saveOneProduct(incomingItem) {
+		try {
+			const newItem = new ProductosModel({ ...incomingItem });
+			await newItem.save();
+		} catch (e) {
+			throw new Error('Algo salio mal al guardar');
+		}
+	}
+
+	async editOneProduct(newItemData, _id) {
+		try {
+			await ProductosModel.updateOne({ _id }, newItemData);
+		} catch (e) {
+			throw new Error('Algo salio mal al editar');
+		}
+	}
+
+	async deleteOneProduct(_id) {
+		try {
+			await ProductosModel.findByIdAndDelete(_id);
+		} catch (e) {
+			throw new Error('Algo salio mal al borrar');
+		}
 	}
 }

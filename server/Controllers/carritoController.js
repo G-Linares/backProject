@@ -1,19 +1,24 @@
 import { getNewCartId, removeObjectWithId } from '../utils/carritoUtils.js';
 import { Contenedor } from '../Class/Contenedor.js';
+import CarritosModel from '../Models/Carritos.js';
 
 const contenedor = new Contenedor('./Data/carritos.json');
 
-export const ping = (req, res) => {
-	res.status(200).json({ status: 'OK' });
+// this is only a test
+export const ping = async (req, res) => {
+	res.status(200).json({ message: 'pong' });
 };
 
 // funcion correspondiente al get de todods los carritos en existencia
 export const getCarts = async (req, res) => {
 	try {
-		const allCarts = await contenedor.getAll();
-		res.status(200).json(allCarts);
+		// asigno todos los resultados de la BD y lo hago funcion asincrona
+		const allcarts = await CarritosModel.find();
+		// se imprime y lo mando a imprimir en pantalla
+		console.log(allcarts);
+		res.status(200).json(allcarts);
 	} catch (e) {
-		res.status(500).json({ status: 'error', message: 'algo salio mal' });
+		res.status(400).json({ message: e.message });
 	}
 };
 
