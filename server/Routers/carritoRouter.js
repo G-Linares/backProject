@@ -6,8 +6,8 @@ import {
 	getCarts,
 	getOneCart,
 	getOneCartItems,
-	// addProductInExistingCart,
-	// deleteItemInCart,
+	addProductInExistingCart,
+	deleteItemInCart,
 } from '../Controllers/carritoController.js';
 
 const carritoRouter = express.Router();
@@ -22,7 +22,7 @@ carritoRouter.get('/', getCarts);
 carritoRouter.get('/:id', getOneCart);
 carritoRouter.post('/', createNewCart);
 carritoRouter.delete('/:id', deleteCart);
-// carritoRouter.post('/:id/productos', addProductInExistingCart);
-// carritoRouter.delete('/:id/productos/:id_prod', deleteItemInCart);
+carritoRouter.post('/:id/productos', addProductInExistingCart);
+carritoRouter.delete('/:id/productos/:id_prod', deleteItemInCart);
 
 export default carritoRouter;

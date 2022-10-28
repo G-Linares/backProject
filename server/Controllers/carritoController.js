@@ -1,5 +1,6 @@
 // import { getNewCartId, removeObjectWithId } from '../utils/carritoUtils.js';
 import { ContenedorCarritos } from '../Class/ContenedorCarritos.js';
+import CarritosModel from '../Models/Carritos.js';
 
 const contenedorCarritos = new ContenedorCarritos();
 
@@ -13,7 +14,6 @@ export const getCarts = async (req, res) => {
 	try {
 		const allcarts = await contenedorCarritos.getAllCarts();
 		// se imprime y lo mando a imprimir en pantalla
-		console.log(allcarts);
 		res.status(200).json(allcarts);
 	} catch (e) {
 		res.status(400).json({ message: e.message });
@@ -82,89 +82,69 @@ export const deleteCart = async (req, res) => {
 	}
 };
 
-// export const addProductInExistingCart = async (req, res) => {
-// 	const cartId = JSON.parse(req.params.id);
-// 	const itemToAdd = req.body;
-// 	const allCarts = await contenedorCarritos.getAllCarts();
-// 	if (cartId > allCarts.length || cartId < 1)
-// 		return res.status(500).json({
-// 			status: 'error',
-// 			message: `No existe un carrito con este id:${cartId}`,
-// 		});
-// esta funcion verifica que el item que se intenta agregar exista dentro de un carrito existente,
-// si existe en el carrito, solo aumenta una unidad el mismo item, si no existe, create el nuevo item
-// y lo adjunta al carrito
-// 	try {
-// 		const doesItemExist = allCarts[cartId - 1].productos.find(
-// 			(obj) => obj.id === itemToAdd.id
-// 		);
-// 		if (itemToAdd.id < 1)
-// 			return res.status(500).json({
-// 				status: 'error',
-// 				message:
-// 					'el id del item a meter dentro del carrito, no puede ser menor a 0',
-// 			});
-// 		if (doesItemExist) {
-// 			const index = allCarts[cartId - 1].productos.findIndex((object) => {
-// 				return object.id === itemToAdd.id;
-// 			});
-// 			allCarts[cartId - 1].productos[index].quantity++;
-// 			await contenedor.saveAll(allCarts);
-// 			return res.status(200).json({
-// 				status: 'success',
-// 				message: `Item existente en carrito, sole se agrega una unidad mas al carrito con id: ${cartId}`,
-// 			});
-// 		} else {
-// 			allCarts[cartId - 1].productos.push(itemToAdd);
-// 			await contenedor.saveAll(allCarts);
-// 			res.status(200).json({
-// 				status: 'success',
-// 				message: `Item agregado al carrito con id: ${cartId}`,
-// 			});
-// 		}
-// 	} catch (e) {
-// 		res.status(500).json({ status: 'error', message: 'algo salio mal' });
-// 	}
-// };
+// esta funcion es medio compleja, basicamente lo que hace es agarrar el item que se quiere ingresar completo
+// asi como el id del carrito que se va a modificar, con esto se busca a el carrito con el ID correspondiente
+// despues buscamos en ese mismo carrito si existe un item dentro de sus productos con el mismo ID como el item que viene
+// si existe, se manda al DAO para agregarle un +1 en cantidad, si no, simplemente lo crea desde 0 y se quede en el
+// array de productos dentro del carrito
+
+// tiene bug esta funcion y no se por que, funciona al 100% solo con el primer carrito, con los demas no hace nada
+export const addProductInExistingCart = async (req, res) => {
+	const requestedCartId = req.params.id;
+	const incomingItem = req.body;
+	try {
+		const completeRequestedCart = await contenedorCarritos.getCartById(
+			requestedCartId
+		);
+		const repeatedItem = completeRequestedCart.productos.find(
+			(item) => item._id === incomingItem._id
+		);
+		// si existe el item dentro del carrito
+		if (repeatedItem) {
+			await contenedorCarritos.addOneMoreExistingItemInCart(
+				requestedCartId,
+				incomingItem._id,
+				repeatedItem.quantity
+			);
+			res.status(200).json({
+				status: 'success',
+				message:
+					'item existente en carrito, se agrego una unidad a su cantidad',
+			});
+			// si no existe el item dentro del carrito
+		} else {
+			await contenedorCarritos.addNonExistentItemToCart(
+				incomingItem,
+				requestedCartId
+			);
+			res.status(200).json({
+				status: 'success',
+				message: 'item no existente en carrito agregado',
+			});
+		}
+	} catch (e) {
+		res.status(500).json({
+			status: 'error',
+			message: 'algo salio mal, al agregar item a carrito',
+		});
+	}
+};
 
 // toma el id del carrito y del item, valida que todos los numeros sean existentes y no tengan overflow,
 // si existe se crea el indice de donde esta el item, lo borra, y se guarda con el saveAll
-// export const deleteItemInCart = async (req, res) => {
-// 	const cartID = JSON.parse(req.params.id);
-// 	const itemID = JSON.parse(req.params.id_prod);
-// 	const allCarts = await contenedor.getAll();
-// 	if (cartID > allCarts.length || cartID < 1)
-// 		return res.status(500).json({
-// 			status: 'error',
-// 			message: `No existe un carrito con este id:${cartID}`,
-// 		});
-// 	try {
-// 		const doesItemExist = allCarts[cartID - 1].productos.find(
-// 			(obj) => obj.id === itemID
-// 		);
-// 		if (itemID < 1)
-// 			return res.status(500).json({
-// 				status: 'error',
-// 				message:
-// 					'el id del item a borrar dentro del carrito, no puede ser menor a 0',
-// 			});
-// 		if (doesItemExist) {
-// 			const index = allCarts[cartID - 1].productos.findIndex((object) => {
-// 				return object.id === itemID;
-// 			});
-// 			allCarts[cartID - 1].productos.splice(index, 1);
-// 			await contenedor.saveAll(allCarts);
-// 			return res.status(200).json({
-// 				status: 'success',
-// 				message: `Item con id:${itemID} borrado de carrito con id: ${cartID}`,
-// 			});
-// 		} else {
-// 			res.status(500).json({
-// 				status: 'error',
-// 				message: `Item no existe con ese ID`,
-// 			});
-// 		}
-// 	} catch (e) {
-// 		res.status(500).json({ status: 'error', message: 'algo salio mal' });
-// 	}
-// };
+export const deleteItemInCart = async (req, res) => {
+	const cartId = req.params.id;
+	const itemId = req.params.id_prod;
+	try {
+		await contenedorCarritos.deleteOneItemInCart(cartId, itemId);
+		res.status(200).json({
+			status: 'success',
+			message: 'item borrado con exito',
+		});
+	} catch (e) {
+		res.status(500).json({
+			status: 'error',
+			message: 'algo salio mal, al borrar item de carrito',
+		});
+	}
+};

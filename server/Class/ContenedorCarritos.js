@@ -39,11 +39,46 @@ export class ContenedorCarritos {
 		}
 	}
 
-	// async addOneItemToExistingCart(itemToAdd, id) {
-	//     try {
+	async addOneMoreExistingItemInCart(
+		requestedCartId,
+		incomingItemID,
+		quantity
+	) {
+		try {
+			await CarritosModel.updateOne(
+				{ requestedCartId, 'productos._id': incomingItemID },
+				{ $set: { 'productos.$.quantity': quantity + 1 } }
+			);
+		} catch (e) {
+			throw new Error('Algo salio mal al editar item existente de carrito');
+		}
+	}
 
-	//     } catch(e) {
-	//         throw new Error('Algo salio mal al agregar item al carrito');
-	//     }
-	// }
+	async addNonExistentItemToCart(incomingItem, requestedCartId) {
+		try {
+			await CarritosModel.updateOne(
+				{ requestedCartId },
+				{ $push: { productos: incomingItem } }
+			);
+		} catch (e) {
+			throw new Error('Algo salio mal al agregar item no existente a carrito');
+		}
+	}
+
+	async deleteOneItemInCart(cartId, itemId) {
+		console.log(cartId);
+		console.log(itemId);
+		try {
+			CarritosModel.deleteOne({ cartId, 'productos._id': itemId });
+		} catch (e) {
+			throw new Error('Algo salio mal al agregar item al carrito');
+		}
+	}
+	// en mongosh si mi deja
+	// db.mycollection.update(
+	// 	{ '_id': ObjectId("5150a1199fac0e6910000002") },
+	// 	{ $pull: { items: { id: 23 } } },
+	// 	false, // Upsert
+	// 	true, // Multi
+	// );
 }

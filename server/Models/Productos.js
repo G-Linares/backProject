@@ -14,7 +14,7 @@ const ProductosSchema = new Schema({
 	price: Number,
 	stock: Number,
 	type: String,
-	Alcohol: Number,
+	alcohol: Number,
 	region: String,
 });
 
