@@ -1,3 +1,4 @@
+import { isObjectIdOrHexString } from 'mongoose';
 import CarritosModel from '../Models/Carritos.js';
 
 export class ContenedorCarritos {
@@ -66,19 +67,27 @@ export class ContenedorCarritos {
 	}
 
 	async deleteOneItemInCart(cartId, itemId) {
-		console.log(cartId);
-		console.log(itemId);
 		try {
-			CarritosModel.deleteOne({ cartId, 'productos._id': itemId });
+			CarritosModel.findByIdAndDelete(
+				{ cartId },
+				{
+					$pull: {
+						productos: { _id: itemId },
+					},
+				}
+			);
 		} catch (e) {
 			throw new Error('Algo salio mal al agregar item al carrito');
 		}
 	}
+
 	// en mongosh si mi deja
-	// db.mycollection.update(
-	// 	{ '_id': ObjectId("5150a1199fac0e6910000002") },
-	// 	{ $pull: { items: { id: 23 } } },
-	// 	false, // Upsert
-	// 	true, // Multi
-	// );
+	// db.carritos.update(
+	// 	{'_id': ObjectId("635b548df8be1ea7b93ba73a")},
+	// 	{
+	// 		$pull : {
+	// 			productos:{ _id: "6359d9c9bcdf01a66e62596c"}
+	// 		}
+	// 	}
+	// )
 }

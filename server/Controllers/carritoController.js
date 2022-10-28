@@ -1,6 +1,5 @@
 // import { getNewCartId, removeObjectWithId } from '../utils/carritoUtils.js';
 import { ContenedorCarritos } from '../Class/ContenedorCarritos.js';
-import CarritosModel from '../Models/Carritos.js';
 
 const contenedorCarritos = new ContenedorCarritos();
 
