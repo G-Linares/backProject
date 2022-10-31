@@ -27,7 +27,7 @@ try {
 		.then(() => console.log('Connected to mongo'))
 		.catch((error) => console.log(error.message));
 } catch (e) {
-	console.error('Algo salio mal', e);
+	console.error('Algo salio mal con mongo', e);
 }
 
 const server = app.listen(PORT, () => {

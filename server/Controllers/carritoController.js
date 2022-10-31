@@ -1,9 +1,9 @@
 // import { getNewCartId, removeObjectWithId } from '../utils/carritoUtils.js';
-import { ContenedorCarritos } from '../Class/ContenedorCarritos.js';
+import { ContenedorCarritos } from '../DAO/ContenedorCarritos.js';
 
 const contenedorCarritos = new ContenedorCarritos();
 
-// this is only a test
+// esto es solo un test, no borrar
 export const ping = async (req, res) => {
 	res.status(200).json({ message: 'pong' });
 };
@@ -87,7 +87,6 @@ export const deleteCart = async (req, res) => {
 // si existe, se manda al DAO para agregarle un +1 en cantidad, si no, simplemente lo crea desde 0 y se quede en el
 // array de productos dentro del carrito
 
-// tiene bug esta funcion y no se por que, funciona al 100% solo con el primer carrito, con los demas no hace nada
 export const addProductInExistingCart = async (req, res) => {
 	const requestedCartId = req.params.id;
 	const incomingItem = req.body;
@@ -98,23 +97,20 @@ export const addProductInExistingCart = async (req, res) => {
 		const repeatedItem = completeRequestedCart.productos.find(
 			(item) => item._id === incomingItem._id
 		);
-		// si existe el item dentro del carrito
 		if (repeatedItem) {
 			await contenedorCarritos.addOneMoreExistingItemInCart(
 				requestedCartId,
-				incomingItem._id,
-				repeatedItem.quantity
+				incomingItem
 			);
 			res.status(200).json({
 				status: 'success',
 				message:
 					'item existente en carrito, se agrego una unidad a su cantidad',
 			});
-			// si no existe el item dentro del carrito
 		} else {
 			await contenedorCarritos.addNonExistentItemToCart(
-				incomingItem,
-				requestedCartId
+				requestedCartId,
+				incomingItem
 			);
 			res.status(200).json({
 				status: 'success',
@@ -132,10 +128,10 @@ export const addProductInExistingCart = async (req, res) => {
 // toma el id del carrito y del item, valida que todos los numeros sean existentes y no tengan overflow,
 // si existe se crea el indice de donde esta el item, lo borra, y se guarda con el saveAll
 export const deleteItemInCart = async (req, res) => {
-	const cartId = req.params.id;
+	const requestedCartId = req.params.id;
 	const itemId = req.params.id_prod;
 	try {
-		await contenedorCarritos.deleteOneItemInCart(cartId, itemId);
+		await contenedorCarritos.deleteOneItemInCart(requestedCartId, itemId);
 		res.status(200).json({
 			status: 'success',
 			message: 'item borrado con exito',

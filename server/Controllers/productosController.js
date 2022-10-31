@@ -1,4 +1,4 @@
-import { ContenedorProductos } from '../Class/ContenedorProductos.js';
+import { ContenedorProductos } from '../DAO/ContenedorProductos.js';
 
 // este contenedor contiene todas las funciones de mongoos que se van a ocupar en carrito y en productos
 const contenedorProductos = new ContenedorProductos();

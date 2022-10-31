@@ -1,4 +1,3 @@
-import { isObjectIdOrHexString } from 'mongoose';
 import CarritosModel from '../Models/Carritos.js';
 
 export class ContenedorCarritos {
@@ -22,6 +21,7 @@ export class ContenedorCarritos {
 		}
 	}
 
+	// guarda un carrito nuevo a la collection
 	async saveOneCart(incomingItem) {
 		try {
 			const newItem = new CarritosModel({ productos: incomingItem });
@@ -32,6 +32,7 @@ export class ContenedorCarritos {
 		}
 	}
 
+	// elimina un carrito completo
 	async deleteOneCart(_id) {
 		try {
 			await CarritosModel.findByIdAndDelete(_id);
@@ -40,25 +41,23 @@ export class ContenedorCarritos {
 		}
 	}
 
-	async addOneMoreExistingItemInCart(
-		requestedCartId,
-		incomingItemID,
-		quantity
-	) {
+	// modifica la cantidad del item existente +1 para no tener items repetidos en array
+	async addOneMoreExistingItemInCart(requestedCartId, incomingItem) {
 		try {
 			await CarritosModel.updateOne(
-				{ requestedCartId, 'productos._id': incomingItemID },
-				{ $set: { 'productos.$.quantity': quantity + 1 } }
+				{ _id: requestedCartId, 'productos._id': incomingItem._id },
+				{ $inc: { 'productos.$.quantity': 1 } }
 			);
 		} catch (e) {
 			throw new Error('Algo salio mal al editar item existente de carrito');
 		}
 	}
 
-	async addNonExistentItemToCart(incomingItem, requestedCartId) {
+	// hace push al item nuevo existente
+	async addNonExistentItemToCart(requestedCartId, incomingItem) {
 		try {
 			await CarritosModel.updateOne(
-				{ requestedCartId },
+				{ _id: requestedCartId },
 				{ $push: { productos: incomingItem } }
 			);
 		} catch (e) {
@@ -66,10 +65,11 @@ export class ContenedorCarritos {
 		}
 	}
 
-	async deleteOneItemInCart(cartId, itemId) {
+	// elimina un item del carrito
+	async deleteOneItemInCart(requestedCartId, itemId) {
 		try {
-			CarritosModel.findByIdAndDelete(
-				{ cartId },
+			await CarritosModel.updateOne(
+				{ _id: requestedCartId },
 				{
 					$pull: {
 						productos: { _id: itemId },
@@ -80,14 +80,4 @@ export class ContenedorCarritos {
 			throw new Error('Algo salio mal al agregar item al carrito');
 		}
 	}
-
-	// en mongosh si mi deja
-	// db.carritos.update(
-	// 	{'_id': ObjectId("635b548df8be1ea7b93ba73a")},
-	// 	{
-	// 		$pull : {
-	// 			productos:{ _id: "6359d9c9bcdf01a66e62596c"}
-	// 		}
-	// 	}
-	// )
 }

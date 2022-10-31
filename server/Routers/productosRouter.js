@@ -9,7 +9,7 @@ import {
 } from '../Controllers/productosController.js';
 
 // middleware de verification, lo hago por headers, manda un header de admin o cliente y deniega o accede al pedido
-import verification from '../middlewares/verification.js';
+import verification from '../Middlewares/verification.js';
 
 const productosRouter = express.Router();
 
