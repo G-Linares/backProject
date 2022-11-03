@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import { navigateToRoute } from "../App";
 import Hero from "../Components/Hero";
+import { itemType } from "../utils/adminUtils";
 
 // custom hook that catches all the dfetched data loading state of the fetch
 import { useApiGet, TApiResponse } from "../utils/fetchProducts";
@@ -17,7 +18,7 @@ export default function ProductGrid(): ReactElement {
   //libreria de context para carrito para auziliarme
   const { addItem } = useCart();
 
-  const handleAddCarrito = (item: any) => {
+  const handleAddCarrito = (item: itemType) => {
     item.id = item._id;
     addItem(item);
   };
@@ -38,7 +39,7 @@ export default function ProductGrid(): ReactElement {
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 w-full">
-              {data.map((item: any, idx: number) => {
+              {data.map((item: itemType, idx: number) => {
                 return (
                   <div className="group" key={idx}>
                     <Link to={navigateToRoute.goToProductDetails(item._id)}>

@@ -3,7 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 // import { useGlobalContext } from "../utils/globalContext";
-import { IsAdminVerificator } from "../utils/IsAdminVerificator";
+// import { IsAdminVerificator } from "../utils/IsAdminVerificator";
 
 //tipo de datos de los props en EditModal
 interface PropTypes {

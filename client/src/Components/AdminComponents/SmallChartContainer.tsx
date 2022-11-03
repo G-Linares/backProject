@@ -1,8 +1,6 @@
 import React from "react";
 
-type Props = {};
-
-export default function SmallChartContainer({}: Props) {
+export default function SmallChartContainer() {
   return (
     <div className="flex flex-col row-span-3 bg-white shadow rounded-lg">
       <div className="px-6 py-5 font-semibold border-b border-gray-100">

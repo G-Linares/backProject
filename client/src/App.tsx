@@ -13,12 +13,14 @@ import AllCartsAdmin from "./Components/AdminComponents/AllCartsAdmin";
 import RegCustomerLayout from "./Components/Layouts/RegCustomerLayout";
 import AdminLayout from "./Components/Layouts/AdminLayout";
 ///------
-
 // import useLocalStorage from "./utils/LocalStorage";
-import { MyGlobalContext } from "./utils/globalContext";
+
 import Login from "./Views/Login";
 import AllUsersAdmin from "./Components/AdminComponents/AllUsersAdmin";
 import ScrollToTop from "./utils/ScrollToTop";
+
+// --- Global context
+import { MyGlobalContext } from "./utils/globalContext";
 
 // ---- de aqui manejo las rutas para poder interactuar con las dinamicas y tener mas limio el codigo ---
 export const ROUTE_PATHS = {
@@ -39,11 +41,11 @@ export const navigateToRoute = {
 
 const App = () => {
   // el username va a estar en global context
-  const [userName, setUserName] = useState<any>();
+  const [userInfo, setUserInfo] = useState<any>();
 
   // routing para cliente normal
   const clientRouting = [
-    { path: ROUTE_PATHS.Login, element: <Login setUser={setUserName} /> },
+    { path: ROUTE_PATHS.Login, element: <Login setUserInfo={setUserInfo} /> },
     { path: ROUTE_PATHS.Shop, element: <ProductGrid /> },
     { path: ROUTE_PATHS.ProductDetails, element: <ProductDetails /> }
   ];
@@ -57,7 +59,7 @@ const App = () => {
   ];
 
   return (
-    <MyGlobalContext.Provider value={{ userName, setUserName }}>
+    <MyGlobalContext.Provider value={{ userInfo, setUserInfo }}>
       {/* agrego third party library para el carrito, me dio flojera implementarlo yo, quizas despues lo haga */}
       <CartProvider>
         <BrowserRouter>

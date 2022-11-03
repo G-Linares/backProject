@@ -2,11 +2,11 @@ import { createContext, useContext } from "react";
 
 //global state para manejar el tipo de usuario ---
 export type GlobalContent = {
-  userName: any;
-  setUserName: (user: any) => void;
+  userInfo: any;
+  setUserInfo: (user: any) => void;
 };
 export const MyGlobalContext = createContext<GlobalContent>({
-  userName: {},
-  setUserName: () => {}
+  userInfo: {},
+  setUserInfo: () => {}
 });
 export const useGlobalContext = () => useContext(MyGlobalContext);

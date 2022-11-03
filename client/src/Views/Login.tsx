@@ -4,7 +4,8 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 
 import img from "../Assets/images/loginbg.png";
 
-export default function Login({ setUser }: any): ReactElement {
+export default function Login({ setUserInfo }: any): ReactElement {
+  // estos estados son para handling solo dentro de Login, luego se hace la asignacion con setUserInfo que es el estado global del app
   const [currentUserName, setCurrentUserName] = useState<any>("");
   const [currentUserPassword, setCurrentUserPassword] = useState<any>("");
 
@@ -12,7 +13,15 @@ export default function Login({ setUser }: any): ReactElement {
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    setUser(currentUserName);
+    setUserInfo({
+      name: "Gerardo",
+      userName: currentUserName,
+      password: currentUserPassword,
+      accountType: "Admin",
+      purchases: "0",
+      carts: "0",
+      _id: "019239861987"
+    });
     if (currentUserName === "admin") {
       navigate("/dsh");
     } else {
@@ -21,17 +30,7 @@ export default function Login({ setUser }: any): ReactElement {
   };
 
   return (
-    <div>
-      {/* <form onSubmit={handleSubmit}>
-        <label htmlFor="user" />
-        <input
-          placeholder="user"
-          value={currentUserName}
-          onChange={(e) => setCurrentUserName(e.target.value)}
-        />
-        <button type="submit">To admin</button>
-      </form> */}
-
+    <>
       <div className="flex items-center justify-center min-h-screen bg-blue-300">
         <div className="relative flex flex-col m-6 space-y-10 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 md:m-0">
           <div className="p-6 md:p-20 rounded-2xl">
@@ -78,6 +77,6 @@ export default function Login({ setUser }: any): ReactElement {
           <img src={img} alt="login bg" className="w-[430px] hidden md:block" />
         </div>
       </div>
-    </div>
+    </>
   );
 }
