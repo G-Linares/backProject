@@ -2,8 +2,8 @@ import React, { ReactElement, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import { useGlobalContext } from "../utils/globalContext";
-import { IsAdminVerificator } from "../utils/IsAdminVerificator";
+// import { useGlobalContext } from "../utils/globalContext";
+// import { IsAdminVerificator } from "../utils/IsAdminVerificator";
 
 // me hubiera podido evitar tanto boilerplate code pero no queria utilizar formik
 // queria hacerlo manualmente de uno en uno, por eso es tanto codigo
@@ -31,7 +31,7 @@ export default function Form(): ReactElement {
   const [region, setRegion] = useState("");
 
   // esto es para ver que el tipo de usuario que es, la variable es global y esta en este contexto
-  const { userTypeState } = useGlobalContext();
+  // const { userTypeState } = useGlobalContext();
 
   //tipando los tipos de dato
   const responseBody: FormDataType = {
@@ -70,7 +70,7 @@ export default function Form(): ReactElement {
     //y un 200 si es admin y agrega el item
     axios
       .post(`${process.env.REACT_APP_PRODUCT_API_ROUTE}/`, responseBody, {
-        headers: { isadmin: JSON.stringify(IsAdminVerificator(userTypeState)) }
+        // headers: { isadmin: JSON.stringify(IsAdminVerificator(userTypeState)) }
       })
       .then((response) => {
         setNombre("");

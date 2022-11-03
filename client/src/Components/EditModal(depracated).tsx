@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import { useGlobalContext } from "../utils/globalContext";
+// import { useGlobalContext } from "../utils/globalContext";
 import { IsAdminVerificator } from "../utils/IsAdminVerificator";
 
 //tipo de datos de los props en EditModal
@@ -48,7 +48,7 @@ export default function EditModal({
   const [region, setRegion] = useState(element.region);
 
   // esto es para ver que el tipo de usuario que es, la variable es global y esta en este contexto
-  const { userTypeState } = useGlobalContext();
+  // const { userTypeState } = useGlobalContext();
 
   const responseBody: FormDataType = {
     nombre: "",
@@ -88,7 +88,7 @@ export default function EditModal({
         responseBody,
         {
           headers: {
-            isadmin: JSON.stringify(IsAdminVerificator(userTypeState))
+            // isadmin: JSON.stringify(IsAdminVerificator(userTypeState))
           }
         }
       )

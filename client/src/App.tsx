@@ -12,7 +12,7 @@ import RegCustomerLayout from "./Components/Layouts/RegCustomerLayout";
 import AdminLayout from "./Components/Layouts/AdminLayout";
 ///------
 
-import useLocalStorage from "./utils/LocalStorage";
+// import useLocalStorage from "./utils/LocalStorage";
 import { MyGlobalContext } from "./utils/globalContext";
 import Login from "./Views/Login";
 
@@ -31,19 +31,15 @@ export const navigateToRoute = {
 // ----------
 
 const App = () => {
-  // inicializo el local Storage dependiendo el global state que declare antes con el contexto
-  const [userType, setUserType] = useLocalStorage("userType", "customer");
-  //inicializo el estado global para que pueda acceder en todo momento a la variable de tipo de usuario
-  const [userTypeState, setUserTypeState] = useState<string>(userType);
-
-  const [user, setUser] = useState<any>();
+  // el username va a estar en global context
+  const [userName, setUserName] = useState<any>();
 
   // routing para cliente normal
   const clientRouting = [
-    { path: ROUTE_PATHS.Login, element: <Login setUser={setUser} /> },
+    { path: ROUTE_PATHS.Login, element: <Login setUser={setUserName} /> },
     {
       path: ROUTE_PATHS.Shop,
-      element: <ProductGrid userType={userType} setUserType={setUserType} />
+      element: <ProductGrid />
     },
     { path: ROUTE_PATHS.ProductDetails, element: <ProductDetails /> }
   ];
@@ -54,9 +50,7 @@ const App = () => {
   ];
 
   return (
-    <MyGlobalContext.Provider
-      value={{ userTypeState, setUserTypeState, user, setUser }}
-    >
+    <MyGlobalContext.Provider value={{ userName, setUserName }}>
       {/* agrego third party library para el carrito, me dio flojera implementarlo yo, quizas despues lo haga */}
       <CartProvider>
         <BrowserRouter>

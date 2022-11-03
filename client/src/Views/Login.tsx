@@ -8,7 +8,11 @@ export default function Login({ setUser }: any): ReactElement {
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     setUser(currentUser);
-    navigate("/dsh");
+    if (currentUser === "client") {
+      navigate("/shop");
+    } else {
+      navigate("/dsh");
+    }
   };
 
   return (

@@ -2,9 +2,9 @@ import React, { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useGlobalContext } from "../utils/globalContext";
-import EditModal from "./EditModal";
-import { IsAdminVerificator } from "../utils/IsAdminVerificator";
+// import { useGlobalContext } from "../utils/globalContext";
+// import EditModal from "./EditModal";
+// import { IsAdminVerificator } from "../utils/IsAdminVerificator";
 
 //element es toda la informacion del item, su ID, nombre, precio etc
 // ahorita tiene tipo any por que solo quiero pasarlo para probar
@@ -20,14 +20,14 @@ export default function AdminButtons({
   let navigate = useNavigate();
 
   //este es el estado global donde esta almacenado el tipo de usuario ""
-  const { userTypeState } = useGlobalContext();
+  // const { userTypeState } = useGlobalContext();
   // funcion para borrar un item, mandamos el delete con el id del elemento a borrar
   const handleErease = () => {
     try {
       axios
         .delete(`${process.env.REACT_APP_PRODUCT_API_ROUTE}/${element._id}`, {
           headers: {
-            isadmin: JSON.stringify(IsAdminVerificator(userTypeState))
+            // isadmin: JSON.stringify(IsAdminVerificator(userTypeState))
           }
         })
         .then(() => {
@@ -79,11 +79,11 @@ export default function AdminButtons({
       </button>
       {/* cuando presionamos Editar, el handleEdit abre un modal para poder mandar
       un request con la nueva info a ingresar al sistema */}
-      <EditModal
+      {/* <EditModal
         modalIsOpen={modalIsOpen}
         setModalIsOpen={setModalIsOpen}
         element={element}
-      />
+      /> */}
     </div>
   );
 }
