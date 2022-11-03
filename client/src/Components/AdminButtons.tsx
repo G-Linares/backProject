@@ -36,7 +36,7 @@ export default function AdminButtons({
             title: "Item Borrado!",
             text: "Item Borrado satisfactoriamente"
           }).then(() => {
-            navigate("/");
+            navigate("/shop");
             window.location.reload();
           });
         })

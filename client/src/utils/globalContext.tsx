@@ -4,9 +4,13 @@ import { createContext, useContext } from "react";
 export type GlobalContent = {
   userTypeState: string;
   setUserTypeState: (c: string) => void;
+  user: any;
+  setUser: (user: any) => void;
 };
 export const MyGlobalContext = createContext<GlobalContent>({
   userTypeState: "", // set a default value
-  setUserTypeState: () => {}
+  setUserTypeState: () => {},
+  user: {},
+  setUser: () => {}
 });
 export const useGlobalContext = () => useContext(MyGlobalContext);

@@ -30,7 +30,6 @@ export default function ProductGrid({
   const handleAddCarrito = (item: any) => {
     item.id = item._id;
     addItem(item);
-    console.log(item);
   };
   return (
     <div className="bg-white">

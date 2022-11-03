@@ -5,19 +5,23 @@ import { CartProvider } from "react-use-cart";
 import ProductGrid from "./Views/ProductGrid";
 import ProductDetails from "./Views/ProductDetails";
 import NotFound from "./Views/NotFound";
+import Dashboard from "./Views/Dashboard";
 //---
 //layout para la todas las paginas ---
-import NavBar from "./Components/NavBar";
-import Footer from "./Components/Footer";
+import RegCustomerLayout from "./Components/Layouts/RegCustomerLayout";
+import AdminLayout from "./Components/Layouts/AdminLayout";
 ///------
 
 import useLocalStorage from "./utils/LocalStorage";
 import { MyGlobalContext } from "./utils/globalContext";
+import Login from "./Views/Login";
 
 // ---- de aqui manejo las rutas para poder interactuar con las dinamicas y tener mas limio el codigo ---
 export const ROUTE_PATHS = {
-  Home: "/",
-  ProductDetails: "/product-detail/:id"
+  Login: "/",
+  ProductDetails: "/product-detail/:id",
+  Dashboard: "/dsh",
+  Shop: "/shop"
 };
 export const navigateToRoute = {
   goToProductDetails: (id: string) =>
@@ -32,26 +36,55 @@ const App = () => {
   //inicializo el estado global para que pueda acceder en todo momento a la variable de tipo de usuario
   const [userTypeState, setUserTypeState] = useState<string>(userType);
 
+  const [user, setUser] = useState<any>();
+
+  // routing para cliente normal
+  const clientRouting = [
+    { path: ROUTE_PATHS.Login, element: <Login setUser={setUser} /> },
+    {
+      path: ROUTE_PATHS.Shop,
+      element: <ProductGrid userType={userType} setUserType={setUserType} />
+    },
+    { path: ROUTE_PATHS.ProductDetails, element: <ProductDetails /> }
+  ];
+
+  // routing para dashboard de admin
+  const adminRouting = [
+    { path: ROUTE_PATHS.Dashboard, element: <Dashboard /> }
+  ];
+
   return (
-    <MyGlobalContext.Provider value={{ userTypeState, setUserTypeState }}>
+    <MyGlobalContext.Provider
+      value={{ userTypeState, setUserTypeState, user, setUser }}
+    >
       {/* agrego third party library para el carrito, me dio flojera implementarlo yo, quizas despues lo haga */}
       <CartProvider>
         <BrowserRouter>
-          <NavBar />
           <Routes>
-            <Route
-              path={ROUTE_PATHS.Home}
-              element={
-                <ProductGrid userType={userType} setUserType={setUserType} />
-              }
-            />
-            <Route
-              path={ROUTE_PATHS.ProductDetails}
-              element={<ProductDetails />}
-            />
+            <Route path={ROUTE_PATHS.Login} element={<RegCustomerLayout />}>
+              {clientRouting.map((item) => {
+                return (
+                  <Route
+                    path={item.path}
+                    element={item.element}
+                    key={item.path}
+                  />
+                );
+              })}
+            </Route>
+            <Route path={ROUTE_PATHS.Dashboard} element={<AdminLayout />}>
+              {adminRouting.map((item) => {
+                return (
+                  <Route
+                    path={item.path}
+                    element={item.element}
+                    key={item.path}
+                  />
+                );
+              })}
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <Footer />
         </BrowserRouter>
       </CartProvider>
     </MyGlobalContext.Provider>
