@@ -1,17 +1,24 @@
 import React, { ReactNode } from "react";
 
 type Props = {
-  color: string;
+  primary: string;
+  secondary: string;
   icon: ReactNode;
   quantity: number;
   title: string;
 };
 
-export default function OverallCard({ color, icon, quantity, title }: Props) {
+export default function OverallCard({
+  primary,
+  secondary,
+  icon,
+  quantity,
+  title
+}: Props) {
   return (
     <div className="flex items-center p-8 bg-white shadow rounded-lg">
       <div
-        className={`inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-${color}-600 bg-${color}-100 rounded-full mr-6`}
+        className={`inline-flex flex-shrink-0 items-center justify-center h-16 w-16 ${primary} ${secondary} rounded-full mr-6`}
       >
         {icon}
       </div>

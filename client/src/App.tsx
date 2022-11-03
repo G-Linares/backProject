@@ -18,6 +18,7 @@ import AdminLayout from "./Components/Layouts/AdminLayout";
 import { MyGlobalContext } from "./utils/globalContext";
 import Login from "./Views/Login";
 import AllUsersAdmin from "./Components/AdminComponents/AllUsersAdmin";
+import ScrollToTop from "./utils/ScrollToTop";
 
 // ---- de aqui manejo las rutas para poder interactuar con las dinamicas y tener mas limio el codigo ---
 export const ROUTE_PATHS = {
@@ -43,10 +44,7 @@ const App = () => {
   // routing para cliente normal
   const clientRouting = [
     { path: ROUTE_PATHS.Login, element: <Login setUser={setUserName} /> },
-    {
-      path: ROUTE_PATHS.Shop,
-      element: <ProductGrid />
-    },
+    { path: ROUTE_PATHS.Shop, element: <ProductGrid /> },
     { path: ROUTE_PATHS.ProductDetails, element: <ProductDetails /> }
   ];
 
@@ -63,6 +61,7 @@ const App = () => {
       {/* agrego third party library para el carrito, me dio flojera implementarlo yo, quizas despues lo haga */}
       <CartProvider>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path={ROUTE_PATHS.Login} element={<RegCustomerLayout />}>
               {clientRouting.map((item) => {

@@ -25,9 +25,9 @@ export default function ProductGrid(): ReactElement {
     <div className="bg-white">
       <Hero />
       <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+        <>
           {isLoading ? (
-            <div className="max-w-xl h-[500px] flex items-center justify-center">
+            <div className="w-full h-[600px] flex items-center justify-center">
               <RotatingLines
                 strokeColor="gray"
                 strokeWidth="5"
@@ -37,7 +37,7 @@ export default function ProductGrid(): ReactElement {
               />
             </div>
           ) : (
-            <>
+            <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 w-full">
               {data.map((item: any, idx: number) => {
                 return (
                   <div className="group" key={idx}>
@@ -76,9 +76,9 @@ export default function ProductGrid(): ReactElement {
                   </div>
                 );
               })}
-            </>
+            </div>
           )}
-        </div>
+        </>
       </div>
     </div>
   );

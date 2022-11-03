@@ -1,7 +1,8 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../Assets/images/agave.png";
-import { IoIosSettings, IoMdCube, IoIosCart, IoIosMan } from "react-icons/io";
+import { IoMdCube, IoIosCart, IoIosMan } from "react-icons/io";
+import { MdOutlineStorefront } from "react-icons/md";
 
 export default function LeftBar(): ReactElement {
   const sideBarRoutes = [
@@ -51,10 +52,10 @@ export default function LeftBar(): ReactElement {
         </nav>
         <div className="inline-flex items-center justify-center h-20 w-20">
           <a
-            href="/"
-            className="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg"
+            href="/shop"
+            className="p-5 inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg"
           >
-            <IoIosSettings className="h-6 w-6" />
+            <MdOutlineStorefront className="h-6 w-6" />
           </a>
         </div>
       </div>

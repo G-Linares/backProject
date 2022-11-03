@@ -18,25 +18,29 @@ export default function Dashboard(): ReactElement {
       icon: <FiPackage className="h-6 w-6" />,
       title: "Items Únicos",
       quantity: 5,
-      color: "blue"
+      primary: "text-blue-600",
+      secondary: "bg-blue-100"
     },
     {
       icon: <FiArchive className="h-6 w-6" />,
       title: "Items en Stock",
       quantity: 400,
-      color: "green"
+      primary: "text-green-600",
+      secondary: "bg-green-100"
     },
     {
       icon: <FiShoppingCart className="h-6 w-6" />,
       title: "Carritos (activos)",
       quantity: 10,
-      color: "purple"
+      primary: "text-purple-600",
+      secondary: "bg-purple-100"
     },
     {
       icon: <FiTrendingUp className="h-6 w-6" />,
       title: "Vendidos Este año",
       quantity: 480,
-      color: "cyan"
+      primary: "text-cyan-600",
+      secondary: "bg-cyan-100"
     }
   ];
   return (
@@ -55,7 +59,8 @@ export default function Dashboard(): ReactElement {
           {overallSquares.map((item) => {
             return (
               <OverallCard
-                color={item.color}
+                primary={item.primary}
+                secondary={item.secondary}
                 quantity={item.quantity}
                 icon={item.icon}
                 title={item.title}
@@ -67,14 +72,16 @@ export default function Dashboard(): ReactElement {
         <section className="grid md:grid-cols-2 xl:grid-cols-4 xl:grid-rows-3 xl:grid-flow-col gap-6">
           <BigChartContainer />
           <OverallCard
-            color={"yellow"}
+            primary={"text-yellow-600"}
+            secondary={"bg-yellow-100"}
             quantity={250}
             icon={<FiUser className="w-6 h-6" />}
             title={"Usuarios"}
             key={"usuarios"}
           />
           <OverallCard
-            color={"yellow"}
+            primary={"text-yellow-600"}
+            secondary={"bg-yellow-100"}
             quantity={1}
             icon={<FiUserPlus className="w-6 h-6" />}
             title={"Admins"}
