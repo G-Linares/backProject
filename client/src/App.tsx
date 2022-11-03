@@ -6,6 +6,8 @@ import ProductGrid from "./Views/ProductGrid";
 import ProductDetails from "./Views/ProductDetails";
 import NotFound from "./Views/NotFound";
 import Dashboard from "./Views/Dashboard";
+import AllItemsAdmin from "./Components/AdminComponents/AllItemsAdmin";
+import AllCartsAdmin from "./Components/AdminComponents/AllCartsAdmin";
 //---
 //layout para la todas las paginas ---
 import RegCustomerLayout from "./Components/Layouts/RegCustomerLayout";
@@ -15,13 +17,17 @@ import AdminLayout from "./Components/Layouts/AdminLayout";
 // import useLocalStorage from "./utils/LocalStorage";
 import { MyGlobalContext } from "./utils/globalContext";
 import Login from "./Views/Login";
+import AllUsersAdmin from "./Components/AdminComponents/AllUsersAdmin";
 
 // ---- de aqui manejo las rutas para poder interactuar con las dinamicas y tener mas limio el codigo ---
 export const ROUTE_PATHS = {
   Login: "/",
   ProductDetails: "/product-detail/:id",
   Dashboard: "/dsh",
-  Shop: "/shop"
+  Shop: "/shop",
+  AllAdminItems: "/dsh/allItems",
+  AllAdminCarts: "/dsh/allCarts",
+  AllAdminUsers: "/dsh/allUsers"
 };
 export const navigateToRoute = {
   goToProductDetails: (id: string) =>
@@ -46,7 +52,10 @@ const App = () => {
 
   // routing para dashboard de admin
   const adminRouting = [
-    { path: ROUTE_PATHS.Dashboard, element: <Dashboard /> }
+    { path: ROUTE_PATHS.Dashboard, element: <Dashboard /> },
+    { path: ROUTE_PATHS.AllAdminItems, element: <AllItemsAdmin /> },
+    { path: ROUTE_PATHS.AllAdminCarts, element: <AllCartsAdmin /> },
+    { path: ROUTE_PATHS.AllAdminUsers, element: <AllUsersAdmin /> }
   ];
 
   return (

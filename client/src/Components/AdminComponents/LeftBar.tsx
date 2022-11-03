@@ -1,13 +1,25 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
-import logo from "../Assets/images/agave.png";
+import logo from "../../Assets/images/agave.png";
 import { IoIosSettings, IoMdCube, IoIosCart, IoIosMan } from "react-icons/io";
 
 export default function LeftBar(): ReactElement {
   const sideBarRoutes = [
-    { icon: <IoMdCube className="h-6 w-6" />, route: "/", title: "Items" },
-    { icon: <IoIosCart className="h-6 w-6" />, route: "/", title: "Carts" },
-    { icon: <IoIosMan className="h-6 w-6" />, route: "/", title: "Users" }
+    {
+      icon: <IoMdCube className="h-6 w-6" />,
+      route: "/dsh/allItems",
+      title: "Items"
+    },
+    {
+      icon: <IoIosCart className="h-6 w-6" />,
+      route: "/dsh/allCarts",
+      title: "Carts"
+    },
+    {
+      icon: <IoIosMan className="h-6 w-6" />,
+      route: "/dsh/allUsers",
+      title: "Users"
+    }
   ];
   return (
     <aside className="hidden sm:flex sm:flex-col">
@@ -24,7 +36,7 @@ export default function LeftBar(): ReactElement {
       </a>
       <div className="flex-grow flex flex-col justify-between text-gray-500 bg-gray-800">
         <nav className="flex flex-col mx-4 my-6 space-y-4">
-          {sideBarRoutes.map((item, idx) => {
+          {sideBarRoutes.map((item) => {
             return (
               <Link
                 key={item.title}

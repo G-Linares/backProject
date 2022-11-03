@@ -1,11 +1,14 @@
 import React, { ReactElement } from "react";
 import { Outlet } from "react-router-dom";
-import AdminHeader from "../AdminHeader";
-import LeftBar from "../LeftBar";
 
+// components used in the layout
+import AdminHeader from "../AdminComponents/AdminHeader";
+import LeftBar from "../AdminComponents/LeftBar";
+
+// context to bring the info
 import { useGlobalContext } from "../../utils/globalContext";
 
-export default function AdminLayout(): ReactElement {
+export default function AdminLayout({ children }: any): ReactElement {
   const { userName } = useGlobalContext();
   return (
     <div className="flex bg-gray-100 min-h-screen">
