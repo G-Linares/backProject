@@ -115,7 +115,19 @@ export default function Dashboard(): ReactElement {
               />
 
               <SmallChartContainer />
-              <ScrollDownList />
+              {isLoadingItems ? (
+                <div className="w-full h-[600px] flex items-center justify-center">
+                  <RotatingLines
+                    strokeColor="gray"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="96"
+                    visible={true}
+                  />
+                </div>
+              ) : (
+                <ScrollDownList allItemsArray={allItemsArray} />
+              )}
             </section>
           </>
         )}

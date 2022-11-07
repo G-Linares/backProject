@@ -16,3 +16,11 @@ export interface itemType {
 export const allItemsInStock = (allItems: itemType[]) => {
     return allItems.reduce((prev:any, cur:any) => prev + cur.stock , 0);
 }
+
+export const sortArrayDesAsc = (allItems: itemType[], sortDirection:string) => {
+    const copyArray = [...allItems];
+    copyArray.sort((a, b) => {
+        return sortDirection === "0" ? a.stock - b.stock : b.stock - a.stock;
+      });
+      return copyArray
+}
