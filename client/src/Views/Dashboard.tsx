@@ -17,7 +17,11 @@ import SmallChartContainer from "../Components/AdminComponents/SmallChartContain
 
 // importing utils to handle all the numbers and quantities, as well as fetches to API
 import { useApiGet, TApiResponse } from "../utils/fetchProducts";
-import { allItemsInStock } from "../utils/adminUtils";
+import {
+  allItemsInStock,
+  allItemsSoldYearly,
+  numberWithCommas
+} from "../utils/adminUtils";
 
 export default function Dashboard(): ReactElement {
   const { data: allItemsArray, isLoading: isLoadingItems }: TApiResponse =
@@ -30,13 +34,13 @@ export default function Dashboard(): ReactElement {
     {
       icon: <FiPackage className="h-6 w-6" />,
       title: "Items Únicos",
-      quantity: isLoadingItems ? 0 : allItemsArray.length,
+      quantity: isLoadingItems ? 0 : numberWithCommas(allItemsArray.length),
       primary: "text-blue-600",
       secondary: "bg-blue-100"
     },
     {
       icon: <FiArchive className="h-6 w-6" />,
-      title: "Items en Stock",
+      title: "Botellas en Stock",
       quantity: isLoadingItems ? 0 : allItemsInStock(allItemsArray),
       primary: "text-green-600",
       secondary: "bg-green-100"
@@ -44,14 +48,14 @@ export default function Dashboard(): ReactElement {
     {
       icon: <FiShoppingCart className="h-6 w-6" />,
       title: "Carritos (activos)",
-      quantity: isLoadingCars ? 0 : allCartsArray.length,
+      quantity: isLoadingCars ? 0 : numberWithCommas(allCartsArray.length),
       primary: "text-purple-600",
       secondary: "bg-purple-100"
     },
     {
       icon: <FiTrendingUp className="h-6 w-6" />,
-      title: "Vendidos Este año",
-      quantity: 480,
+      title: "Botellas Vendidas Este año",
+      quantity: isLoadingItems ? 0 : allItemsSoldYearly(allItemsArray),
       primary: "text-cyan-600",
       secondary: "bg-cyan-100"
     }
@@ -96,7 +100,7 @@ export default function Dashboard(): ReactElement {
               })}
             </section>
             <section className="grid md:grid-cols-2 xl:grid-cols-4 xl:grid-rows-3 xl:grid-flow-col gap-6">
-              <BigChartContainer />
+              <BigChartContainer allItemsArray={allItemsArray} />
               <OverallCard
                 primary={"text-yellow-600"}
                 secondary={"bg-yellow-100"}
@@ -114,7 +118,6 @@ export default function Dashboard(): ReactElement {
                 key={"admins"}
               />
 
-              <SmallChartContainer />
               {isLoadingItems ? (
                 <div className="w-full h-[600px] flex items-center justify-center">
                   <RotatingLines
