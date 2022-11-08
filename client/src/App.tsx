@@ -32,6 +32,7 @@ export const ROUTE_PATHS = {
   AllAdminCarts: "/dsh/allCarts",
   AllAdminUsers: "/dsh/allUsers"
 };
+
 export const navigateToRoute = {
   goToProductDetails: (id: string) =>
     `${ROUTE_PATHS.ProductDetails}`.replace(":id", id)

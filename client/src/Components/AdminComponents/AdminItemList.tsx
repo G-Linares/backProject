@@ -12,8 +12,9 @@ export default function AdminItemList({ allItemsArray }: any): ReactElement {
 
   const handleModifyitem = (item: itemType) => {
     document.body.style.overflow = "hidden";
-    setModalIsOpen(true);
+    console.log(item);
     setActiveItem(item);
+    setModalIsOpen(true);
   };
 
   const handleDelete = (item: itemType) => {
@@ -60,7 +61,7 @@ export default function AdminItemList({ allItemsArray }: any): ReactElement {
     });
   };
   return (
-    <div className="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg">
+    <div className="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg w-full">
       <div className="px-6 py-5 font-semibold border-b border-gray-100">
         Items en invetario
       </div>

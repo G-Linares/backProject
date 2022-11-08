@@ -11,7 +11,7 @@ export default function AllCartsAdmin() {
   const { data: allCartsArray, isLoading: isLoadingCars }: TApiResponse =
     useApiGet(`${process.env.REACT_APP_CARRITO_API_ROUTE}`);
   return (
-    <section className="grid md:grid-cols-2 xl:grid-cols-4 xl:grid-rows-3 xl:grid-flow-col gap-6 p-5">
+    <section className="p-5">
       {isLoadingCars ? (
         <div className="w-full h-[600px] flex items-center justify-center">
           <RotatingLines
@@ -24,25 +24,33 @@ export default function AllCartsAdmin() {
         </div>
       ) : (
         <>
-          <OverallCard
-            primary={"text-yellow-600"}
-            secondary={"bg-yellow-100"}
-            quantity={allCartsArray.length}
-            icon={<IoIosCart className="w-6 h-6" />}
-            title={"Carritos Activos"}
-            key={"carritos"}
-          />
-          <OverallCard
-            primary={"text-yellow-600"}
-            secondary={"bg-yellow-100"}
-            quantity={1}
-            icon={<IoIosCart className="w-6 h-6" />}
-            title={"Carritos en espera"}
-            key={"carritos-espera"}
-          />
-          {allCartsArray.map((item: cartType) => {
-            return <SmallChartContainer item={item} key={item._id} />;
-          })}
+          <div className="flex w-full md:flex-row justify-around flex-col gap-5 border-b-2 border-gray-200 pb-10">
+            <OverallCard
+              primary={"text-yellow-600"}
+              secondary={"bg-yellow-100"}
+              quantity={allCartsArray.length}
+              icon={<IoIosCart className="w-6 h-6" />}
+              title={"Carritos Activos"}
+              key={"carritos"}
+            />
+            <OverallCard
+              primary={"text-yellow-600"}
+              secondary={"bg-yellow-100"}
+              quantity={1}
+              icon={<IoIosCart className="w-6 h-6" />}
+              title={"Carritos en espera"}
+              key={"carritos-espera"}
+            />
+          </div>
+          <h1 className="text-center mt-10 font-bold text-3xl">
+            {" "}
+            Carritos Existentes
+          </h1>
+          <div className="p-10 flex flex-wrap justify-evenly gap-5">
+            {allCartsArray.map((item: cartType) => {
+              return <SmallChartContainer item={item} key={item._id} />;
+            })}
+          </div>
         </>
       )}
     </section>

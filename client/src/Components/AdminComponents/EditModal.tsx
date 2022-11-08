@@ -18,6 +18,16 @@ export default function EditModal({
 }: PropTypes) {
   //esto solo esta hecho para dejar que se mueva el scroll y cerrar
   const handleCloseModal = () => {
+    setNombre("");
+    setDescripcion("");
+    setCodigo("");
+    setFoto("");
+    setPrice(0);
+    setStock(0);
+    setType("");
+    setAlcohol(0);
+    setRegion("");
+    setSold(0);
     document.body.style.overflow = "";
     setModalIsOpen(false);
   };
@@ -122,6 +132,8 @@ export default function EditModal({
         });
       });
   };
+
+  console.log(element);
   return (
     <div
       id="authentication-modal"

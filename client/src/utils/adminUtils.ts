@@ -20,6 +20,17 @@ export interface cartType {
     timestamp:string;
 
 }
+
+// type for regular user
+export interface Usertype {
+    _id:string;
+    username:string;
+    isAdmin: boolean;
+    name:string;
+    lastName:string;
+    lastLogin:string;
+    profilePicture:string;
+}
 // get number without commas
 export const numberWithCommas = (number : number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
