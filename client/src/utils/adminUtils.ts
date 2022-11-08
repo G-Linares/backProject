@@ -7,10 +7,18 @@ export interface itemType {
     price: number,
     region: string,
     stock: number,
-    timestamp:number,
+    timestamp:string,
+    quantity:number,
     type:string,
     _id:string,
     id:string,
+}
+
+export interface cartType {
+    _id:string;
+    productos: object[];
+    timestamp:string;
+
 }
 // get number without commas
 export const numberWithCommas = (number : number) => {
@@ -33,4 +41,9 @@ export const sortArrayDesAsc = (allItems: itemType[], sortDirection:string) => {
         return sortDirection === "0" ? a.stock - b.stock : b.stock - a.stock;
       });
       return copyArray
+}
+
+// limit characters displayed
+export const limitText = (string:string,limit:number) => {
+    return string.substring(0, limit);
 }

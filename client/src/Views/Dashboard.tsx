@@ -13,7 +13,7 @@ import { RotatingLines } from "react-loader-spinner";
 import BigChartContainer from "../Components/AdminComponents/BigChartContainer";
 import OverallCard from "../Components/AdminComponents/OverallCard";
 import ScrollDownList from "../Components/AdminComponents/ScrollDownList";
-import SmallChartContainer from "../Components/AdminComponents/SmallChartContainer";
+// import SmallChartContainer from "../Components/AdminComponents/SmallChartContainer";
 
 // importing utils to handle all the numbers and quantities, as well as fetches to API
 import { useApiGet, TApiResponse } from "../utils/fetchProducts";
@@ -28,7 +28,7 @@ export default function Dashboard(): ReactElement {
     useApiGet(`${process.env.REACT_APP_PRODUCT_API_ROUTE}`);
 
   const { data: allCartsArray, isLoading: isLoadingCars }: TApiResponse =
-    useApiGet(`${process.env.REACT_APP_PRODUCT_API_ROUTE}`);
+    useApiGet(`${process.env.REACT_APP_CARRITO_API_ROUTE}`);
 
   const overallSquares = [
     {

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-// import { useGlobalContext } from "../utils/globalContext";
-// import { IsAdminVerificator } from "../utils/IsAdminVerificator";
+// este componenete tiene que verificar que
 
 //tipo de datos de los props en EditModal
 interface PropTypes {
@@ -35,6 +34,7 @@ export default function EditModal({
     type: string;
     alcohol: number;
     region: string;
+    sold: number;
   }
 
   const [nombre, setNombre] = useState(element.nombre);
@@ -46,6 +46,7 @@ export default function EditModal({
   const [type, setType] = useState(element.type);
   const [alcohol, setAlcohol] = useState(element.alcohol);
   const [region, setRegion] = useState(element.region);
+  const [sold, setSold] = useState(element.sold);
 
   // esto es para ver que el tipo de usuario que es, la variable es global y esta en este contexto
   // const { userTypeState } = useGlobalContext();
@@ -59,7 +60,8 @@ export default function EditModal({
     stock: 0,
     type: "",
     alcohol: 0,
-    region: ""
+    region: "",
+    sold: 0
   };
 
   const inputChangeHandler = (
@@ -81,6 +83,7 @@ export default function EditModal({
     responseBody.type = type;
     responseBody.alcohol = alcohol;
     responseBody.region = region;
+    responseBody.sold = sold;
     //lo mismo que tengo en el formulario principal, todo el modelado y el submit handler igual, quizas despues lo modularize
     axios
       .put(
@@ -88,7 +91,7 @@ export default function EditModal({
         responseBody,
         {
           headers: {
-            // isadmin: JSON.stringify(IsAdminVerificator(userTypeState))
+            isadmin: true
           }
         }
       )
@@ -102,6 +105,7 @@ export default function EditModal({
         setType("");
         setAlcohol(0);
         setRegion("");
+        setSold(0);
         Swal.fire({
           icon: "success",
           title: "Todo Bien!",
@@ -118,7 +122,6 @@ export default function EditModal({
         });
       });
   };
-
   return (
     <div
       id="authentication-modal"
@@ -289,6 +292,21 @@ export default function EditModal({
                   required
                   value={descripcion}
                   onChange={(e) => inputChangeHandler(setDescripcion, e)}
+                />
+              </div>
+              <div>
+                <label htmlFor="region" className="lable-modify-modal">
+                  Nuevo Num de Venta
+                </label>
+                <input
+                  type="number"
+                  name="sold"
+                  id="sold"
+                  placeholder={element.sold}
+                  className="input-modify-modal  "
+                  required
+                  value={sold}
+                  onChange={(e) => inputChangeHandler(setSold, e)}
                 />
               </div>
               <button
