@@ -8,6 +8,7 @@ import OverallCard from "./OverallCard";
 import SmallChartContainer from "./SmallChartContainer";
 
 export default function AllCartsAdmin() {
+  // fetch al api para traer todos los carritos
   const { data: allCartsArray, isLoading: isLoadingCars }: TApiResponse =
     useApiGet(`${process.env.REACT_APP_CARRITO_API_ROUTE}`);
   return (

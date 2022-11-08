@@ -133,7 +133,6 @@ export default function EditModal({
       });
   };
 
-  console.log(element);
   return (
     <div
       id="authentication-modal"
