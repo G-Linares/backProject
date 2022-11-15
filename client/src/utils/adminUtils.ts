@@ -31,6 +31,21 @@ export interface Usertype {
     lastLogin:string;
     profilePicture:string;
 }
+
+// type for Form new Item 
+export interface FormDataType {
+    nombre: string;
+    descripcion: string;
+    codigo: string;
+    foto: string;
+    price: number;
+    stock: number;
+    type: string;
+    alcohol: number;
+    region: string;
+    sold: number;
+  }
+  
 // get number without commas
 export const numberWithCommas = (number : number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

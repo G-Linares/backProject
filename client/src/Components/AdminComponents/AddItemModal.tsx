@@ -1,37 +1,14 @@
-import React, { useState } from "react";
+import React, { FormEvent } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useForm } from "../../utils/useForm";
+import { FormDataType } from "../../utils/adminUtils";
 
-type Props = {
+interface Props {
   title: string;
-};
-
-interface FormDataType {
-  nombre: string;
-  descripcion: string;
-  codigo: string;
-  foto: string;
-  price: number;
-  stock: number;
-  type: string;
-  alcohol: number;
-  region: string;
-  sold: number;
 }
-
 export default function AddItemModal({ title }: Props) {
-  const [nombre, setNombre] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [codigo, setCodigo] = useState("");
-  const [foto, setFoto] = useState("");
-  const [price, setPrice] = useState(0);
-  const [stock, setStock] = useState(0);
-  const [type, setType] = useState("");
-  const [alcohol, setAlcohol] = useState(0);
-  const [region, setRegion] = useState("");
-  const [sold, setSold] = useState(0);
-
-  const responseBody: FormDataType = {
+  const initialState: FormDataType = {
     nombre: "",
     descripcion: "",
     codigo: "",
@@ -44,44 +21,14 @@ export default function AddItemModal({ title }: Props) {
     sold: 0
   };
 
-  const inputChangeHandler = (
-    setFunction: React.Dispatch<React.SetStateAction<any>>,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFunction(event.target.value);
-  };
-
-  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    responseBody.nombre = nombre;
-    responseBody.type = type;
-    responseBody.descripcion = descripcion;
-    responseBody.codigo = codigo;
-    responseBody.foto = foto;
-    responseBody.price = price;
-    responseBody.stock = stock;
-    responseBody.type = type;
-    responseBody.alcohol = alcohol;
-    responseBody.region = region;
-    responseBody.sold = sold;
-    //se hace el llamado al back con la URL que corresponde a addOne, con el nuevo objecto completo y modelado
-    //y con los headers para verificar si es admin, ya el servidor validara esta variable y regresara 403 si no es admin
-    //y un 200 si es admin y agrega el item
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(state);
     axios
-      .post(`${process.env.REACT_APP_PRODUCT_API_ROUTE}/`, responseBody, {
+      .post(`${process.env.REACT_APP_PRODUCT_API_ROUTE}/`, state, {
         headers: { isadmin: true }
       })
       .then((response) => {
-        setNombre("");
-        setDescripcion("");
-        setCodigo("");
-        setFoto("");
-        setPrice(0);
-        setStock(0);
-        setType("");
-        setAlcohol(0);
-        setRegion("");
-        setSold(0);
         Swal.fire({
           icon: "success",
           title: "Todo Bien!",
@@ -98,8 +45,23 @@ export default function AddItemModal({ title }: Props) {
         });
       });
   };
+
+  const { state, bind } = useForm(initialState);
+  const {
+    nombre,
+    descripcion,
+    codigo,
+    foto,
+    price,
+    stock,
+    type,
+    alcohol,
+    region,
+    sold
+  } = state;
+
   return (
-    <form onSubmit={onSubmitHandler} className="w-1/2 mx-auto pt-10">
+    <form onSubmit={submitHandler} className="w-1/2 mx-auto pt-10">
       <h1 className="text-center pb-10 font-bold text-3xl"> {title}</h1>
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -110,8 +72,9 @@ export default function AddItemModal({ title }: Props) {
             required
             className="starting-input"
             id="nombre"
+            name="nombre"
             type="text"
-            onChange={(e) => inputChangeHandler(setNombre, e)}
+            {...bind}
             value={nombre}
           />
         </div>
@@ -124,8 +87,9 @@ export default function AddItemModal({ title }: Props) {
             className="input-gray"
             id="type"
             type="text"
+            name="type"
+            {...bind}
             value={type}
-            onChange={(e) => inputChangeHandler(setType, e)}
           />
         </div>
         <div className="w-full md:w-1/2 px-3">
@@ -136,8 +100,9 @@ export default function AddItemModal({ title }: Props) {
             className="input-gray"
             id="region"
             type="text"
+            name="region"
+            {...bind}
             value={region}
-            onChange={(e) => inputChangeHandler(setRegion, e)}
           />
         </div>
         <div className="w-full md:w-1/2 px-3">
@@ -148,9 +113,9 @@ export default function AddItemModal({ title }: Props) {
             className="input-gray"
             id="alcohol"
             type="number"
-            placeholder="Doe"
+            name="alcohol"
+            {...bind}
             value={alcohol}
-            onChange={(e) => inputChangeHandler(setAlcohol, e)}
           />
         </div>
       </div>
@@ -164,8 +129,9 @@ export default function AddItemModal({ title }: Props) {
             id="descripcion"
             type="text"
             placeholder="Descripción"
+            name="descripcion"
+            {...bind}
             value={descripcion}
-            onChange={(e) => inputChangeHandler(setDescripcion, e)}
           />
           <p className="text-gray-600 text-xs italic">
             Limite de 200 caracteres
@@ -182,8 +148,9 @@ export default function AddItemModal({ title }: Props) {
             id="price"
             type="number"
             placeholder="$"
+            name="price"
+            {...bind}
             value={price}
-            onChange={(e) => inputChangeHandler(setPrice, e)}
           />
         </div>
         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -195,8 +162,9 @@ export default function AddItemModal({ title }: Props) {
             id="stock"
             type="number"
             placeholder="#"
+            name="stock"
+            {...bind}
             value={stock}
-            onChange={(e) => inputChangeHandler(setStock, e)}
           />
         </div>
         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -208,8 +176,9 @@ export default function AddItemModal({ title }: Props) {
             id="codigo"
             type="number"
             placeholder="#"
+            name="codigo"
+            {...bind}
             value={codigo}
-            onChange={(e) => inputChangeHandler(setCodigo, e)}
           />
         </div>
       </div>
@@ -223,8 +192,9 @@ export default function AddItemModal({ title }: Props) {
             id="descripcion"
             type="text"
             placeholder="Descripción"
+            name="foto"
+            {...bind}
             value={foto}
-            onChange={(e) => inputChangeHandler(setFoto, e)}
           />
         </div>
       </div>
@@ -238,8 +208,9 @@ export default function AddItemModal({ title }: Props) {
             id="descripcion"
             type="text"
             placeholder="Descripción"
+            name="sold"
+            {...bind}
             value={sold}
-            onChange={(e) => inputChangeHandler(setSold, e)}
           />
         </div>
       </div>
