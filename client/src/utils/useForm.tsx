@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useReducer } from "react";
+import { ChangeEvent, useReducer } from "react";
 
 export const useForm = (initialState: any) => {
   const reducer = (
