@@ -1,10 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
 import productosRouter from './Routers/productosRouter.js';
 import carritoRouter from './Routers/carritoRouter.js';
-import mongoose from 'mongoose';
+import usersRouter from './Routers/usersRouter.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.use('/api/productos', productosRouter);
 app.use('/api/carrito', carritoRouter);
+app.use('/api/users', usersRouter);
 
 try {
 	mongoose

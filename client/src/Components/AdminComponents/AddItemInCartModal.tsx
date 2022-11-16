@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactElement, useState } from "react";
+import React, { FormEvent, ReactElement } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { ExistingItemFormDataType } from "../../utils/adminUtils";
@@ -35,7 +35,6 @@ export default function AddItemInCartModal({
     //se hace el llamado al back con la URL que corresponde a addOne, con el nuevo objecto completo y modelado
     //y con los headers para verificar si es admin, ya el servidor validara esta variable y regresara 403 si no es admin
     //y un 200 si es admin y agrega el item
-
     axios
       .post(
         `${process.env.REACT_APP_CARRITO_API_ROUTE}/${item._id}/productos`,
@@ -77,34 +76,74 @@ export default function AddItemInCartModal({
     sold
   } = state;
 
+  // todos los campose de inputs
   const inputs = [
     {
       value: nombre,
       name: "nombre",
-      style: "w-full md:w-1/2 px-3 mb-6 md:mb-0"
+      style: "w-full md:w-1/2 px-3 mb-6 md:mb-0",
+      type: "text"
     },
-    { value: type, name: "type", style: "w-full md:w-1/2 px-3" },
-    { value: region, name: "region", style: "w-full md:w-1/2 px-3" },
-    { value: alcohol, name: "alcohol", style: "w-full md:w-1/2 px-3" },
+    {
+      value: type,
+      name: "type",
+      style: "w-full md:w-1/2 px-3",
+      type: "text"
+    },
+    {
+      value: region,
+      name: "region",
+      style: "w-full md:w-1/2 px-3",
+      type: "text"
+    },
+    {
+      value: alcohol,
+      name: "alcohol",
+      style: "w-full md:w-1/2 px-3",
+      type: "number"
+    },
     {
       value: descripcion,
       name: "descripcion",
-      style: "flex flex-wrap w-full mb-6"
+      style: "px-3 w-full",
+      type: "text"
     },
-    { value: price, name: "price", style: "w-full md:w-1/3 px-3 mb-6 md:mb-0" },
+    {
+      value: price,
+      name: "price",
+      style: "w-full md:w-1/3 px-3 mb-6 md:mb-0",
+      type: "number"
+    },
     {
       value: stock,
       name: "stock",
-      style: "w-full md:w-1/3 px-3 mb-6 md:mb-0"
+      style: "w-full md:w-1/3 px-3 mb-6 md:mb-0",
+      type: "number"
     },
     {
       value: codigo,
       name: "codigo",
-      style: "w-full md:w-1/3 px-3 mb-6 md:mb-0"
+      style: "w-full md:w-1/3 px-3 mb-6 md:mb-0",
+      type: "text"
     },
-    { value: foto, name: "foto", style: "flex flex-wrap " },
-    { value: sold, name: "sold", style: "flex flex-wrap mb-6" },
-    { value: _id, name: "_id", style: "w-full px-3" }
+    {
+      value: foto,
+      name: "foto",
+      style: "w-full md:w-1/2 px-3",
+      type: "text"
+    },
+    {
+      value: sold,
+      name: "sold",
+      style: "w-full md:w-1/2 px-3",
+      type: "number"
+    },
+    {
+      value: _id,
+      name: "_id",
+      style: "w-full px-3",
+      type: "text"
+    }
   ];
 
   return (
@@ -139,13 +178,13 @@ export default function AddItemInCartModal({
               {inputs.map((input) => {
                 return (
                   <div className={input.style}>
-                    <label className="input-lable" htmlFor="nombre">
+                    <label className="input-lable" htmlFor={input.name}>
                       {input.name}
                     </label>
                     <input
                       required
                       className="starting-input"
-                      type="text"
+                      type={input.type}
                       {...bind}
                       name={input.name}
                       id={input.name}

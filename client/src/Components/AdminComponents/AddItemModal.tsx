@@ -65,29 +65,63 @@ export default function AddItemModal({ title }: Props) {
     {
       value: nombre,
       name: "nombre",
-      style: "w-full md:w-1/2 px-3 mb-6 md:mb-0"
+      style: "w-full md:w-1/2 px-3 mb-6 md:mb-0",
+      type: "text"
     },
-    { value: type, name: "type", style: "w-full md:w-1/2 px-3" },
-    { value: region, name: "region", style: "w-full md:w-1/2 px-3" },
-    { value: alcohol, name: "alcohol", style: "w-full md:w-1/2 px-3" },
+    {
+      value: type,
+      name: "type",
+      style: "w-full md:w-1/2 px-3",
+      type: "text"
+    },
+    {
+      value: region,
+      name: "region",
+      style: "w-full md:w-1/2 px-3",
+      type: "text"
+    },
+    {
+      value: alcohol,
+      name: "alcohol",
+      style: "w-full md:w-1/2 px-3",
+      type: "number"
+    },
     {
       value: descripcion,
       name: "descripcion",
-      style: "w-full md:w-full px-3 pt-2"
+      style: "w-full md:w-full px-3 pt-2",
+      type: "text"
     },
-    { value: price, name: "price", style: "pt-2 w-full md:w-1/3 px-3" },
+    {
+      value: price,
+      name: "price",
+      style: "pt-2 w-full md:w-1/3 px-3",
+      type: "number"
+    },
     {
       value: stock,
       name: "stock",
-      style: "pt-2 w-full md:w-1/3 px-3"
+      style: "pt-2 w-full md:w-1/3 px-3",
+      type: "number"
     },
     {
       value: codigo,
       name: "codigo",
-      style: " w-full md:w-1/3 px-3 pt-2"
+      style: " w-full md:w-1/3 px-3 pt-2",
+      type: "text"
     },
-    { value: foto, name: "foto", style: "pt-2 md:w-full w-full px-3" },
-    { value: sold, name: "sold", style: "pt-2 w-full px-3" }
+    {
+      value: foto,
+      name: "foto",
+      style: "pt-2 md:w-full w-full px-3",
+      type: "text"
+    },
+    {
+      value: sold,
+      name: "sold",
+      style: "pt-2 w-full px-3",
+      type: "number"
+    }
   ];
 
   return (
@@ -97,7 +131,7 @@ export default function AddItemModal({ title }: Props) {
         {inputs.map((input) => {
           return (
             <div className={input.style}>
-              <label className="input-lable" htmlFor="nombre">
+              <label className="input-lable" htmlFor={input.name}>
                 {input.name}
               </label>
               <input
@@ -105,7 +139,7 @@ export default function AddItemModal({ title }: Props) {
                 className="starting-input"
                 id={input.name}
                 name={input.name}
-                type="text"
+                type={input.type}
                 {...bind}
                 value={input.value}
               />

@@ -81,38 +81,21 @@ export default function AdminItemList({ allItemsArray }: any): ReactElement {
                       </p>
                       <p>
                         <span className="text-xs text-gray-500 italic group-hover:text-white">
-                          Stock:{" "}
+                          ID:{" "}
                         </span>
-                        {item.stock}
+                        {item._id}
                       </p>
+                      <div className="flex flex-row gap-5">
+                        <FiEdit2
+                          onClick={() => handleModifyitem(item)}
+                          className="w-6 h-6 text-blue-600 group-hover:text-white cursor-pointer"
+                        />
 
-                      <p>
-                        <span className="text-xs text-gray-500 italic group-hover:text-white">
-                          Descripcion:{" "}
-                        </span>
-                        {limitText(item.descripcion, 10)}...
-                      </p>
-                      <p>
-                        <span className="text-xs text-gray-500 italic group-hover:text-white">
-                          Precio:{" "}
-                        </span>
-                        {item.price}
-                      </p>
-                      <p>
-                        <span className="text-xs text-gray-500 italic group-hover:text-white">
-                          Vendidos:{" "}
-                        </span>
-                        {item.sold}
-                      </p>
-                      <FiEdit2
-                        onClick={() => handleModifyitem(item)}
-                        className="w-6 h-6 text-blue-600 group-hover:text-white cursor-pointer"
-                      />
-
-                      <FiTrash2
-                        onClick={() => handleDelete(item)}
-                        className="w-6 h-6 text-red-600 group-hover:text-white cursor-pointer"
-                      />
+                        <FiTrash2
+                          onClick={() => handleDelete(item)}
+                          className="w-6 h-6 text-red-600 group-hover:text-white cursor-pointer"
+                        />
+                      </div>
                     </li>
                     {activeItem && (
                       <EditModal
