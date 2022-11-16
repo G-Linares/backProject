@@ -33,7 +33,7 @@ export default function BigChartContainer({
                 }}
               />
               <Tooltip />
-              <Line type="monotone" dataKey="stock" stroke="#8884d8" />
+              <Line type="monotone" dataKey="sold" stroke="#8884d8" />
             </LineChart>
           </ResponsiveContainer>
         </div>

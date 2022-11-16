@@ -31,7 +31,7 @@ export default function AllCartsAdmin() {
               secondary={"bg-yellow-100"}
               quantity={allCartsArray.length}
               icon={<IoIosCart className="w-6 h-6" />}
-              title={"Carritos Activos"}
+              title={"Ordenes Activas"}
               key={"carritos"}
             />
             <OverallCard
@@ -45,7 +45,7 @@ export default function AllCartsAdmin() {
           </div>
           <h1 className="text-center mt-10 font-bold text-3xl">
             {" "}
-            Carritos Existentes
+            Ordenes Existentes
           </h1>
           <div className="p-10 flex flex-wrap justify-evenly gap-5">
             {allCartsArray.map((item: cartType) => {

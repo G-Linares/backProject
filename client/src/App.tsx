@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CartProvider } from "react-use-cart";
+
 //todas las vistas para la aplicacion ---
 import ProductGrid from "./Views/ProductGrid";
 import ProductDetails from "./Views/ProductDetails";
