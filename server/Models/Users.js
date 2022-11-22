@@ -1,12 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 
 const UsersSchema = new Schema({
-	isAdmin: Boolean,
-	nombre: String,
-	apellido: String,
-	username: String,
+	isAdmin: { type: Boolean, default: false },
+	userName: { type: String, unique: true },
 	password: String,
-	profilePicture: String,
 	timestamp: {
 		type: Date,
 		default: new Date(),

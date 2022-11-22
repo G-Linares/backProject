@@ -2,7 +2,7 @@ import UsersModel from '../Models/Users.js';
 
 export class ContenedorUsers {
 	// mostrar todos los productos
-	async getAllProducts() {
+	async getAllUsers() {
 		try {
 			const allProducts = await UsersModel.find();
 			return allProducts;
@@ -16,7 +16,18 @@ export class ContenedorUsers {
 			const newUser = new UsersModel({ ...incomingUser });
 			await newUser.save();
 		} catch (e) {
-			throw new Error('Algo salio mal al guardar');
+			throw new Error(e);
+		}
+	}
+
+	async findOneUser(incomingUserName) {
+		try {
+			const user = await UsersModel.findOne({
+				userName: `${incomingUserName}`,
+			});
+			return user;
+		} catch (e) {
+			throw new Error('Algo salio mal al buscar un usuario usuario');
 		}
 	}
 }

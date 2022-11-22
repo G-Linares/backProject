@@ -22,10 +22,12 @@ import ScrollToTop from "./utils/ScrollToTop";
 
 // --- Global context
 import { MyGlobalContext } from "./utils/globalContext";
+import Signin from "./Views/Signin";
 
 // ---- de aqui manejo las rutas para poder interactuar con las dinamicas y tener mas limio el codigo ---
 export const ROUTE_PATHS = {
   Login: "/",
+  Signin: "/signin",
   ProductDetails: "/product-detail/:id",
   Dashboard: "/dsh",
   Shop: "/shop",
@@ -48,6 +50,7 @@ const App = () => {
   // routing para cliente normal
   const clientRouting = [
     { path: ROUTE_PATHS.Login, element: <Login setUserInfo={setUserInfo} /> },
+    { path: ROUTE_PATHS.Signin, element: <Signin /> },
     { path: ROUTE_PATHS.Shop, element: <ProductGrid /> },
     { path: ROUTE_PATHS.ProductDetails, element: <ProductDetails /> }
   ];

@@ -61,6 +61,19 @@ export interface FormDataType {
     sold: number;
     quantity: number;
   }
+
+  export interface LoginFormDataType {
+    userName:string;
+    password:string;
+  }
+  export interface SigninFormDataType {
+    userName:string;
+    password:string;
+    isAdmin:boolean
+  }
+
+  
+
   
 // get number without commas
 export const numberWithCommas = (number : number) => {

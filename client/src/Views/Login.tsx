@@ -1,31 +1,57 @@
-import React, { useState, ReactElement } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { ReactElement, FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 import img from "../Assets/images/loginbg.png";
+import { useForm } from "../utils/useForm";
+import { LoginFormDataType } from "../utils/adminUtils";
 
 export default function Login({ setUserInfo }: any): ReactElement {
-  // estos estados son para handling solo dentro de Login, luego se hace la asignacion con setUserInfo que es el estado global del app
-  const [currentUserName, setCurrentUserName] = useState<any>("");
-  const [currentUserPassword, setCurrentUserPassword] = useState<any>("");
+  const initialState: LoginFormDataType = {
+    userName: "",
+    password: ""
+  };
 
+  const { state, bind } = useForm(initialState);
+  const { userName, password } = state;
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    setUserInfo({
-      name: "Gerardo",
-      userName: currentUserName,
-      password: currentUserPassword,
-      accountType: "Admin",
-      purchases: "0",
-      carts: "0",
-      _id: "019239861987"
-    });
-    if (currentUserName === "admin") {
-      navigate("/dsh");
-    } else {
-      navigate("/shop");
+  const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // global context pega aqui
+    setUserInfo(state);
+    try {
+      const { data: response } = await axios.post(
+        `${process.env.REACT_APP_LOGIN_URL}`,
+        state,
+        {
+          withCredentials: true
+        }
+      );
+      if (response.status === "success") {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Acceso Correcto",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        if (response.type === "admin") {
+          navigate("/dsh");
+        } else {
+          navigate("/shop");
+        }
+      }
+    } catch (e: any) {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: e.response.data.message,
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
   };
 
@@ -39,19 +65,23 @@ export default function Login({ setUserInfo }: any): ReactElement {
               Accede a tu cuenta para poder comprar botellas de mezcal al mejor
               precio.
             </p>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={onSubmitHandler}>
               <input
+                {...bind}
+                required
                 className="w-full p-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
                 placeholder="Ingresa nombre de usuario aquí"
-                value={currentUserName}
-                onChange={(e) => setCurrentUserName(e.target.value)}
+                name="userName"
+                value={userName}
               />
               <input
+                {...bind}
+                required
                 className="w-full p-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light mt-2"
                 placeholder="Ingresa contraseña aquí"
                 type="password"
-                value={currentUserPassword}
-                onChange={(e) => setCurrentUserPassword(e.target.value)}
+                name="password"
+                value={password}
               />
               <div className="flex flex-col items-center justify-between mt-6 space-y-6 md:flex-row md:space-y-0">
                 <div className="font-thin text-blue-700 cursor-pointer">
@@ -67,7 +97,14 @@ export default function Login({ setUserInfo }: any): ReactElement {
                 </button>
               </div>
             </form>
-
+            <div className="w-full flex justify-center">
+              <Link to="/signin">
+                <button className="pt-10 text-blue-500 text-center">
+                  {" "}
+                  Crear cuenta nueva
+                </button>
+              </Link>
+            </div>
             <div className="mt-12 border-b border-b-gray-300"></div>
             <p className="py-6 text-small font-thin text-center text-gray-400">
               Acceder como invitado

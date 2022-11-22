@@ -29,7 +29,9 @@ export default function AdminLayout(): ReactElement {
       <div className="flex-grow text-gray-800">
         <AdminHeader activityLogs={activityLogs} />
         {userInfo ? (
-          <h1>Hola! vengo desde global context: {userInfo.name}</h1>
+          <h1 className="text-4xl text-center mt-10 font-bold pb-2 border-b-2 w-1/2 mx-auto">
+            Bienvenido {userInfo.userName} !
+          </h1>
         ) : null}
         <Outlet />
       </div>
