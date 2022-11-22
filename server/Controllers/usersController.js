@@ -58,6 +58,8 @@ export const signIn = async (req, res) => {
 
 // valida la password y username, y valida que tipo de usuario es
 export const login = async (req, res) => {
+	const { userName } = req?.body;
+	req.session.userName = userName;
 	try {
 		const resultingUser = await contenedorUsers.findOneUser(req.body.userName);
 		if (resultingUser) {
@@ -72,16 +74,22 @@ export const login = async (req, res) => {
 				});
 			} else {
 				if (resultingUser.isAdmin) {
+					req.session.isAdmin = true;
+					req.session.isAuth = true;
 					res.status(200).json({
 						status: 'success',
 						message: 'Acceso correcto',
 						type: 'admin',
+						sessionId: req.session.id,
 					});
 				} else {
+					req.session.isAdmin = false;
+					req.session.isAuth = true;
 					res.status(200).json({
 						status: 'success',
 						message: 'Acceso correcto',
 						type: 'regular',
+						sessionId: req.session.id,
 					});
 				}
 			}
@@ -95,6 +103,21 @@ export const login = async (req, res) => {
 		res.status(501).json({
 			status: 'ERROR',
 			message: 'No se puede acceder al sistema en este momento',
+		});
+	}
+};
+
+export const isLogged = (req, res) => {
+	if (req.session.isAuth) {
+		res.status(200).json({
+			userName: req.session.userName,
+			isAuth: req.session.isAuth,
+			session: req.session.id,
+		});
+	} else {
+		res.status(500).json({
+			status: 'error',
+			message: 'Algo salio mal al traer session de user',
 		});
 	}
 };

@@ -31,14 +31,14 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// MONGO SESSION CONFIG ------
+app.use(headerConfig);
+app.use(session(sessionOptions));
+
 // ROUTING CONFIGS ------
 app.use('/api/productos', productosRouter);
 app.use('/api/carrito', carritoRouter);
 app.use('/api/users', usersRouter);
-
-// MONGO SESSION CONFIG ------
-app.use(headerConfig);
-app.use(session(sessionOptions));
 
 // SOCKET IO CONFIG ------
 const socketServer = http.createServer(app);

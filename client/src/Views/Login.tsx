@@ -40,8 +40,10 @@ export default function Login({ setUserInfo }: any): ReactElement {
         });
         if (response.type === "admin") {
           navigate("/dsh");
+          window.location.reload();
         } else {
           navigate("/shop");
+          window.location.reload();
         }
       }
     } catch (e: any) {
