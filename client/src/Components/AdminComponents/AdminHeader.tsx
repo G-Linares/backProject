@@ -1,17 +1,51 @@
+import axios from "axios";
 import React, { ReactElement } from "react";
 import {
   IoIosNotificationsOutline,
   IoMdLogOut,
   IoMdSearch
 } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useGlobalContext } from "../../utils/globalContext";
 
 interface Props {
   activityLogs: any;
 }
 
 export default function AdminHeader({ activityLogs }: Props): ReactElement {
-  const handleLogOut = () => {
-    console.log("logout");
+  const navigate = useNavigate();
+  const { userInfo, loadingUserInfo } = useGlobalContext();
+
+  console.log(userInfo);
+
+  const handleLogOut = async () => {
+    try {
+      const { data: response } = await axios.get(
+        `${process.env.REACT_APP_LOGOUT_URL}`,
+        {
+          withCredentials: true
+        }
+      );
+
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: response.message,
+        showConfirmButton: false,
+        timer: 3000
+      });
+      navigate("/");
+      window.location.reload();
+    } catch (e) {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Algo salio mal",
+        showConfirmButton: false,
+        timer: 3000
+      });
+    }
   };
 
   return (
@@ -43,20 +77,25 @@ export default function AdminHeader({ activityLogs }: Props): ReactElement {
         />
       </div>
       <div className="flex flex-shrink-0 items-center ml-auto">
-        <div className="inline-flex items-center p-2 unded-lg">
-          <span className="sr-only">User Menu</span>
-          <div className="hidden md:flex md:flex-col md:items-end md:leading-tight">
-            <span className="font-semibold">Gerardo Linares</span>
-            <span className="text-sm text-gray-600">Admin</span>
+        {loadingUserInfo ? (
+          <> Loading ...</>
+        ) : (
+          <div className="inline-flex items-center p-2 unded-lg">
+            <span className="sr-only">User Menu</span>
+            <div className="hidden md:flex md:flex-col md:items-end md:leading-tight">
+              <span className="font-semibold">{userInfo.userName}</span>
+              <span className="text-sm text-gray-600">Admin</span>
+            </div>
+            <span className="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
+              <img
+                src="https://randomuser.me/api/portraits/men/1.jpg"
+                alt="user profile "
+                className="h-full w-full object-cover"
+              />
+            </span>
           </div>
-          <span className="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
-            <img
-              src="https://randomuser.me/api/portraits/men/1.jpg"
-              alt="user profile "
-              className="h-full w-full object-cover"
-            />
-          </span>
-        </div>
+        )}
+
         <div className="border-l pl-3 ml-3 space-x-1">
           {activityLogs ? (
             <button className="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">

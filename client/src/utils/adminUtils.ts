@@ -72,7 +72,12 @@ export interface FormDataType {
     isAdmin:boolean
   }
 
-  
+  export interface IsLoggedDataType {
+    userName?: string,
+    isAuth: boolean,
+	session?: string,
+	isAdmin?: boolean,
+  }
 
   
 // get number without commas

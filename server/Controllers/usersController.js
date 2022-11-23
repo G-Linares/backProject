@@ -58,8 +58,6 @@ export const signIn = async (req, res) => {
 
 // valida la password y username, y valida que tipo de usuario es
 export const login = async (req, res) => {
-	const { userName } = req?.body;
-	req.session.userName = userName;
 	try {
 		const resultingUser = await contenedorUsers.findOneUser(req.body.userName);
 		if (resultingUser) {
@@ -74,6 +72,7 @@ export const login = async (req, res) => {
 				});
 			} else {
 				if (resultingUser.isAdmin) {
+					req.session.userName = req.body.userName;
 					req.session.isAdmin = true;
 					req.session.isAuth = true;
 					res.status(200).json({
@@ -83,6 +82,7 @@ export const login = async (req, res) => {
 						sessionId: req.session.id,
 					});
 				} else {
+					req.session.userName = req.body.userName;
 					req.session.isAdmin = false;
 					req.session.isAuth = true;
 					res.status(200).json({
@@ -113,11 +113,26 @@ export const isLogged = (req, res) => {
 			userName: req.session.userName,
 			isAuth: req.session.isAuth,
 			session: req.session.id,
+			isAdmin: req.session.isAdmin,
 		});
 	} else {
-		res.status(500).json({
-			status: 'error',
-			message: 'Algo salio mal al traer session de user',
+		res.status(200).json({
+			isAuth: false,
 		});
+	}
+};
+
+export const logout = (req, res) => {
+	try {
+		req.session.destroy();
+		res.clearCookie('session-id');
+		res.status(200).json({
+			status: 'success',
+			message: 'Session cerrada',
+		});
+	} catch (e) {
+		res
+			.status(500)
+			.json({ status: 'error', message: 'Algo salio mal al hacer logout' });
 	}
 };

@@ -108,9 +108,11 @@ export default function Login({ setUserInfo }: any): ReactElement {
               </Link>
             </div>
             <div className="mt-12 border-b border-b-gray-300"></div>
-            <p className="py-6 text-small font-thin text-center text-gray-400">
-              Acceder como invitado
-            </p>
+            <Link to="/shop">
+              <p className="py-6 text-small font-thin text-center text-gray-400 cursor-pointer">
+                Acceder como invitado
+              </p>
+            </Link>
             <div className="flex flex-col space-x-0 space-y-6 md:flex-row md:space-x-4 md:space-y-0"></div>
           </div>
           <img src={img} alt="login bg" className="w-[430px] hidden md:block" />

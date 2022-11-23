@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CartProvider } from "react-use-cart";
+import Swal from "sweetalert2";
 
 //todas las vistas para la aplicacion ---
 import ProductGrid from "./Views/ProductGrid";
@@ -23,6 +24,8 @@ import ScrollToTop from "./utils/ScrollToTop";
 // --- Global context
 import { MyGlobalContext } from "./utils/globalContext";
 import Signin from "./Views/Signin";
+import axios from "axios";
+import { IsLoggedDataType } from "./utils/adminUtils";
 
 // ---- de aqui manejo las rutas para poder interactuar con las dinamicas y tener mas limio el codigo ---
 export const ROUTE_PATHS = {
@@ -45,7 +48,8 @@ export const navigateToRoute = {
 
 const App = () => {
   // el username va a estar en global context
-  const [userInfo, setUserInfo] = useState<any>();
+  const [userInfo, setUserInfo] = useState<IsLoggedDataType>();
+  const [loadingUserInfo, setLoadingUserInfo] = useState<boolean>(true);
 
   // routing para cliente normal
   const clientRouting = [
@@ -63,8 +67,38 @@ const App = () => {
     { path: ROUTE_PATHS.AllAdminUsers, element: <AllUsersAdmin /> }
   ];
 
+  // esto va a hacer el fetch al usuario que este loggeado no importa donde, y luego lo va a meter a estado global para que todo lo pueda obtener
+  useEffect(() => {
+    const fetchStatus = async () => {
+      setLoadingUserInfo(true);
+      try {
+        const { data: response } = await axios.get(
+          `${process.env.REACT_APP_ISLOGGED_URL}`,
+          {
+            withCredentials: true
+          }
+        );
+        setUserInfo(response);
+      } catch (e) {
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "Algo salio mal",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+      setLoadingUserInfo(false);
+    };
+    fetchStatus();
+  }, []);
+
+  // --------------
+
   return (
-    <MyGlobalContext.Provider value={{ userInfo, setUserInfo }}>
+    <MyGlobalContext.Provider
+      value={{ userInfo, setUserInfo, loadingUserInfo }}
+    >
       {/* agrego third party library para el carrito, me dio flojera implementarlo yo, quizas despues lo haga */}
       <CartProvider>
         <BrowserRouter>
