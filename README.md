@@ -51,7 +51,7 @@ Así lo puedes instalar
    npm start
    ```
 
-### Algunas rutas de Carrito no se pueden probar con front, mas info en readme de Server
+### Se tienen dos tips de app, admin y tienda normal.
 
 ## Roadmap
 
@@ -61,3 +61,10 @@ Así lo puedes instalar
 - [ ] Entregable 4
 - [ ] Entregable 5
 - [ ] Entregable 6
+
+### Faltantes
+
+- validar que el timeout de la cookie permita mandar requests o regresar a login en caso de que se quite
+- agregar vista para modificar usuario en parte de admin
+- agregar vista para logs de modificaciones hechas por admin
+- agregar mas productos a la BD
