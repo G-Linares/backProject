@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt';
+import { ContenedorLogs } from '../DAO/ContenedorLogs.js';
 import { ContenedorUsers } from '../DAO/ContenedorUsers.js';
 // este contenedor contiene todas las funciones de mongoos que se van a ocupar en carrito y en productos
 const contenedorUsers = new ContenedorUsers();
+const contenedorLogs = new ContenedorLogs();
 
 // esto es solo un test
 export const ping = async (req, res) => {
@@ -42,6 +44,11 @@ export const signIn = async (req, res) => {
 				userName,
 				password: hasehdPassword,
 				isAdmin: false, // esto tiene que cambiar, ahora esta hardcodeado
+			});
+			await contenedorLogs.saveOneLog({
+				title: `Se crea un usuario`,
+				descripcion: userName,
+				link: 'url del producto en fron',
 			});
 			res.status(200).json({
 				status: 'success',

@@ -24,6 +24,7 @@ import {
   Usertype
 } from "../utils/adminUtils";
 import ScrollDownListUsers from "../Components/AdminComponents/ScrollDownListUsers";
+import { useGlobalContext } from "../utils/globalContext";
 
 export default function Dashboard(): ReactElement {
   const { data: allItemsArray, isLoading: isLoadingItems }: TApiResponse =
@@ -111,9 +112,15 @@ export default function Dashboard(): ReactElement {
     }
   ];
 
+  const { userInfo } = useGlobalContext();
   return (
     <>
       <main className="p-6 sm:p-10 space-y-6">
+        {userInfo ? (
+          <h1 className="text-4xl text-center mt-10 font-bold pb-2 border-b-2 w-1/2 mx-auto">
+            Bienvenido {userInfo.userName} !
+          </h1>
+        ) : null}
         <div className="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
           <div className="mr-6">
             <h1 className="text-4xl font-semibold mb-2">Agave Dashboard</h1>
