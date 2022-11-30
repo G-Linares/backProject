@@ -24,7 +24,7 @@ export interface cartType {
 // type for regular user
 export interface Usertype {
     _id:string;
-    username:string;
+    userName:string;
     isAdmin: boolean;
     name:string;
     lastName:string;
@@ -69,7 +69,10 @@ export interface FormDataType {
   export interface SigninFormDataType {
     userName:string;
     password:string;
-    isAdmin:boolean
+    isAdmin:boolean;
+    name: string;
+    lastName:string;
+    profilePicture:string;
   }
 
   export interface IsLoggedDataType {

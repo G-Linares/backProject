@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt, { genSaltSync } from 'bcrypt';
 import { ContenedorLogs } from '../DAO/ContenedorLogs.js';
 import { ContenedorUsers } from '../DAO/ContenedorUsers.js';
 // este contenedor contiene todas las funciones de mongoos que se van a ocupar en carrito y en productos
@@ -23,11 +23,11 @@ export const listUsers = async (req, res) => {
 
 // mete informacion real que viene desde front y registra usuario con contraseña encriptada
 export const signIn = async (req, res) => {
-	const { userName, password } = req?.body;
-	if (!userName || !password) {
+	const { userName, password, name, lastName, profilePicture } = req?.body;
+	if (!userName || !password || !name || !lastName || !profilePicture) {
 		res.status(500).json({
 			status: 'error',
-			message: 'Username o Password estan vacios',
+			message: 'Algun campo viene vacio',
 		});
 		return;
 	}
@@ -38,12 +38,15 @@ export const signIn = async (req, res) => {
 			message: 'Usuario ya existe',
 		});
 	} else {
-		const hasehdPassword = await bcrypt.hash(password, 10);
+		const hasehdPassword = await bcrypt.hash(password, genSaltSync(10));
 		try {
 			await contenedorUsers.registerNewUser({
 				userName,
 				password: hasehdPassword,
 				isAdmin: false, // esto tiene que cambiar, ahora esta hardcodeado
+				name,
+				lastName,
+				profilePicture,
 			});
 			await contenedorLogs.saveOneLog({
 				title: `Se crea un usuario`,

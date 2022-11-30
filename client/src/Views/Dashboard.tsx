@@ -68,7 +68,7 @@ export default function Dashboard(): ReactElement {
     {
       _id: "636a84a5c9917e79ac90dd99",
       profilePicture: "https://randomuser.me/api/portraits/women/71.jpg",
-      username: "G-Linares",
+      userName: "G-Linares",
       isAdmin: true,
       name: "Gerardo",
       lastName: "Linares",
@@ -77,7 +77,7 @@ export default function Dashboard(): ReactElement {
     {
       _id: "636a84e50b1a83222d997872",
       profilePicture: "https://randomuser.me/api/portraits/men/69.jpg",
-      username: "G-Linares",
+      userName: "G-Linares",
       isAdmin: false,
       name: "Gerardo",
       lastName: "Linares",
@@ -86,7 +86,7 @@ export default function Dashboard(): ReactElement {
     {
       _id: "636a84e9d36bd75a77a54e8d",
       profilePicture: "https://randomuser.me/api/portraits/men/3.jpg",
-      username: "G-Linares",
+      userName: "G-Linares",
       isAdmin: false,
       name: "Gerardo",
       lastName: "Linares",
@@ -95,7 +95,7 @@ export default function Dashboard(): ReactElement {
     {
       _id: "636a84edd2e7cf8fd0cfd1f9",
       profilePicture: "https://randomuser.me/api/portraits/men/32.jpg",
-      username: "G-Linares",
+      userName: "G-Linares",
       isAdmin: false,
       name: "Gerardo",
       lastName: "Linares",
@@ -104,7 +104,7 @@ export default function Dashboard(): ReactElement {
     {
       _id: "636a84f074e532b96eaa6636",
       profilePicture: "https://randomuser.me/api/portraits/men/31.jpg",
-      username: "G-Linares",
+      userName: "G-Linares",
       isAdmin: false,
       name: "Gerardo",
       lastName: "Linares",

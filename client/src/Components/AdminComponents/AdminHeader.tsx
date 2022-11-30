@@ -17,8 +17,6 @@ export default function AdminHeader({ activityLogs }: Props): ReactElement {
   const navigate = useNavigate();
   const { userInfo, loadingUserInfo } = useGlobalContext();
 
-  console.log(userInfo);
-
   const handleLogOut = async () => {
     try {
       const { data: response } = await axios.get(
