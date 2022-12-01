@@ -21,7 +21,7 @@ export default function UserCard({
 }: UserCardProps): ReactElement {
   const handleConvert = async (userName: string, _id: string, type: string) => {
     Swal.fire({
-      title: `Seguro que quieres cambiar el user a ${type} `,
+      title: `Seguro que quieres cambiar el tipo de cuanta a ${type} `,
       showDenyButton: true,
       confirmButtonText: "Cambiar",
       denyButtonText: `No Cambiar`
@@ -29,7 +29,10 @@ export default function UserCard({
       if (result.isConfirmed) {
         try {
           axios
-            .post("http://localhost:8080/api/users/convert", { userName, _id })
+            .post(`${process.env.REACT_APP_CONVERT_USER_TYPE}`, {
+              userName,
+              _id
+            })
             .then((response) => {
               if (response.data.status === "success") {
                 Swal.fire({

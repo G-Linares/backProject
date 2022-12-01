@@ -40,12 +40,14 @@ export default function Login({ setUserInfo }: any): ReactElement {
         });
         if (response.type === "admin") {
           setUserInfo(response.userData);
+
           navigate("/dsh");
+
           window.location.reload();
         } else {
           setUserInfo(response.userData);
           navigate("/shop");
-          window.location.reload();
+          // window.location.reload();
         }
       }
     } catch (e: any) {
