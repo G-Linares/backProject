@@ -12,7 +12,6 @@ export default function AdminItemList({ allItemsArray }: any): ReactElement {
 
   const handleModifyitem = (item: itemType) => {
     document.body.style.overflow = "hidden";
-    console.log(item);
     setActiveItem(item);
     setModalIsOpen(true);
   };

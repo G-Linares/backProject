@@ -9,7 +9,7 @@ export default function ScrollDownListUsers({
   dataArray
 }: Props): ReactElement {
   const [users, setUsers] = useState<Usertype[]>(dataArray);
-
+  // creo que esta de mas pero aun asi lo voy a dejar por si luego lo ocupo
   useEffect(() => {
     setUsers(dataArray);
   }, [dataArray]);

@@ -20,8 +20,8 @@ import { useApiGet, TApiResponse } from "../utils/fetchProducts";
 import {
   allItemsInStock,
   allItemsSoldYearly,
-  numberWithCommas,
-  Usertype
+  findAllAdmins,
+  numberWithCommas
 } from "../utils/adminUtils";
 import ScrollDownListUsers from "../Components/AdminComponents/ScrollDownListUsers";
 import { useGlobalContext } from "../utils/globalContext";
@@ -32,6 +32,9 @@ export default function Dashboard(): ReactElement {
 
   const { data: allCartsArray, isLoading: isLoadingCars }: TApiResponse =
     useApiGet(`${process.env.REACT_APP_CARRITO_API_ROUTE}`);
+
+  const { data: allUsersArray, isLoading: isLoadingUsers }: TApiResponse =
+    useApiGet(`${process.env.REACT_APP_ALL_USERS}`);
 
   const overallSquares = [
     {
@@ -61,54 +64,6 @@ export default function Dashboard(): ReactElement {
       quantity: isLoadingItems ? 0 : allItemsSoldYearly(allItemsArray),
       primary: "text-cyan-600",
       secondary: "bg-cyan-100"
-    }
-  ];
-
-  const allUsersDummyData: Usertype[] = [
-    {
-      _id: "636a84a5c9917e79ac90dd99",
-      profilePicture: "https://randomuser.me/api/portraits/women/71.jpg",
-      userName: "G-Linares",
-      isAdmin: true,
-      name: "Gerardo",
-      lastName: "Linares",
-      lastLogin: "ayer"
-    },
-    {
-      _id: "636a84e50b1a83222d997872",
-      profilePicture: "https://randomuser.me/api/portraits/men/69.jpg",
-      userName: "G-Linares",
-      isAdmin: false,
-      name: "Gerardo",
-      lastName: "Linares",
-      lastLogin: "ayer"
-    },
-    {
-      _id: "636a84e9d36bd75a77a54e8d",
-      profilePicture: "https://randomuser.me/api/portraits/men/3.jpg",
-      userName: "G-Linares",
-      isAdmin: false,
-      name: "Gerardo",
-      lastName: "Linares",
-      lastLogin: "ayer"
-    },
-    {
-      _id: "636a84edd2e7cf8fd0cfd1f9",
-      profilePicture: "https://randomuser.me/api/portraits/men/32.jpg",
-      userName: "G-Linares",
-      isAdmin: false,
-      name: "Gerardo",
-      lastName: "Linares",
-      lastLogin: "ayer"
-    },
-    {
-      _id: "636a84f074e532b96eaa6636",
-      profilePicture: "https://randomuser.me/api/portraits/men/31.jpg",
-      userName: "G-Linares",
-      isAdmin: false,
-      name: "Gerardo",
-      lastName: "Linares",
-      lastLogin: "ayer"
     }
   ];
 
@@ -158,22 +113,28 @@ export default function Dashboard(): ReactElement {
             </section>
             <section className="grid md:grid-cols-2 xl:grid-cols-4 xl:grid-rows-3 xl:grid-flow-col gap-6">
               <BigChartContainer allItemsArray={allItemsArray} />
-              <OverallCard
-                primary={"text-yellow-600"}
-                secondary={"bg-yellow-100"}
-                quantity={250}
-                icon={<FiUser className="w-6 h-6" />}
-                title={"Usuarios"}
-                key={"usuarios"}
-              />
-              <OverallCard
-                primary={"text-yellow-600"}
-                secondary={"bg-yellow-100"}
-                quantity={1}
-                icon={<FiUserPlus className="w-6 h-6" />}
-                title={"Admins"}
-                key={"admins"}
-              />
+              {isLoadingUsers ? (
+                <>Loading...</>
+              ) : (
+                <>
+                  <OverallCard
+                    primary={"text-yellow-600"}
+                    secondary={"bg-yellow-100"}
+                    quantity={allUsersArray.length}
+                    icon={<FiUser className="w-6 h-6" />}
+                    title={"Usuarios"}
+                    key={"usuarios"}
+                  />
+                  <OverallCard
+                    primary={"text-yellow-600"}
+                    secondary={"bg-yellow-100"}
+                    quantity={findAllAdmins(allUsersArray)}
+                    icon={<FiUserPlus className="w-6 h-6" />}
+                    title={"Admins"}
+                    key={"admins"}
+                  />
+                </>
+              )}
 
               {isLoadingItems ? (
                 <div className="w-full h-[600px] flex items-center justify-center">
@@ -188,7 +149,7 @@ export default function Dashboard(): ReactElement {
               ) : (
                 <>
                   <ScrollDownList dataArray={allItemsArray} />
-                  <ScrollDownListUsers dataArray={allUsersDummyData} />
+                  <ScrollDownListUsers dataArray={allUsersArray} />
                 </>
               )}
             </section>

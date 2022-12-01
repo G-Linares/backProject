@@ -75,6 +75,7 @@ export const login = async (req, res) => {
 				req.body.password,
 				resultingUser.password
 			);
+			const { name, lastName, profilePicture, userName, _id } = resultingUser;
 			if (!isValid) {
 				return res.status(400).json({
 					status: 'error',
@@ -90,6 +91,7 @@ export const login = async (req, res) => {
 						message: 'Acceso correcto',
 						type: 'admin',
 						sessionId: req.session.id,
+						userData: { name, lastName, profilePicture, userName, _id },
 					});
 				} else {
 					req.session.userName = req.body.userName;
@@ -100,6 +102,7 @@ export const login = async (req, res) => {
 						message: 'Acceso correcto',
 						type: 'regular',
 						sessionId: req.session.id,
+						userData: { name, lastName, profilePicture, userName, _id },
 					});
 				}
 			}
@@ -117,13 +120,19 @@ export const login = async (req, res) => {
 	}
 };
 
-export const isLogged = (req, res) => {
+export const isLogged = async (req, res) => {
 	if (req.session.isAuth) {
+		const resultingUser = await contenedorUsers.findOneUser(
+			req.session.userName
+		);
+		if (!resultingUser) throw new Error();
+		const { name, lastName, profilePicture, _id } = resultingUser;
 		res.status(200).json({
 			userName: req.session.userName,
 			isAuth: req.session.isAuth,
 			session: req.session.id,
 			isAdmin: req.session.isAdmin,
+			userData: { name, lastName, profilePicture, _id },
 		});
 	} else {
 		res.status(200).json({
@@ -145,4 +154,22 @@ export const logout = (req, res) => {
 			.status(500)
 			.json({ status: 'error', message: 'Algo salio mal al hacer logout' });
 	}
+};
+
+export const convert = async (req, res) => {
+	const { _id, userName } = req?.body;
+	if (!_id || !userName)
+		res.status(500).json({
+			status: 'error',
+			message: 'Algo salio mal al cambiar estatus de user',
+		});
+	try {
+		const existingUser = await contenedorUsers.findOneUser(userName);
+		existingUser.isAdmin = !existingUser.isAdmin;
+		contenedorUsers.editOneUser(existingUser, _id);
+		res.status(200).json({
+			status: 'success',
+			message: 'Se cambio el status del user correctamente',
+		});
+	} catch (e) {}
 };

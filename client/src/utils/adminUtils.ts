@@ -110,3 +110,12 @@ export const sortArrayDesAsc = (allItems: itemType[], sortDirection:string) => {
 export const limitText = (string:string,limit:number) => {
     return string.substring(0, limit);
 }
+
+// encuentra numero de admins y regresa int con el numero total de admins
+export const findAllAdmins = (allUsersArray : Usertype[]) => {
+  let counter = 0;
+  allUsersArray.forEach(user => {
+    if(user.isAdmin) counter++
+  })
+  return counter
+}

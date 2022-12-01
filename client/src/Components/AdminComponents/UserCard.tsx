@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { ReactElement, useState } from "react";
+import Swal from "sweetalert2";
 
 interface UserCardProps {
   _id: string;
@@ -17,6 +19,43 @@ export default function UserCard({
   lastName,
   profilePicture
 }: UserCardProps): ReactElement {
+  const handleConvert = async (userName: string, _id: string, type: string) => {
+    Swal.fire({
+      title: `Seguro que quieres cambiar el user a ${type} `,
+      showDenyButton: true,
+      confirmButtonText: "Cambiar",
+      denyButtonText: `No Cambiar`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          axios
+            .post("http://localhost:8080/api/users/convert", { userName, _id })
+            .then((response) => {
+              if (response.data.status === "success") {
+                Swal.fire({
+                  icon: "success",
+                  title: "Todo Bien!",
+                  text: response.data.message
+                }).then(() => {
+                  window.location.reload();
+                });
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Algo sucedio",
+                  text: response.data.message
+                });
+              }
+            });
+        } catch (e) {
+          console.log(e);
+        }
+      } else if (result.isDenied) {
+        Swal.fire("Usuario no cambiado", "", "info");
+      }
+    });
+  };
+
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-md ">
@@ -74,18 +113,24 @@ export default function UserCard({
         <span className="text-sm text-gray-500 dark:text-gray-400">{name}</span>
         <span className="text-sm text-gray-500 dark:text-gray-400">{_id}</span>
         <div className="flex mt-4 space-x-3 md:mt-6">
-          <a
-            href="/"
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Make Admin
-          </a>
-          <a
-            href="/"
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700"
-          >
-            Check Purchases
-          </a>
+          {isAdmin ? (
+            <button
+              onClick={() => handleConvert(userName, _id, "Usuario")}
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 "
+            >
+              Hacer Usuario
+            </button>
+          ) : (
+            <button
+              onClick={() => handleConvert(userName, _id, "Admin")}
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 "
+            >
+              Hacer Admin
+            </button>
+          )}
+          <button className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 ">
+            Ver Compras
+          </button>
         </div>
       </div>
     </div>
